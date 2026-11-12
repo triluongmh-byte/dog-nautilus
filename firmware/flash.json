@@ -1,0 +1,1 @@
+{"family":"esp32","tool":"arduino-cli","fqbn":"esp32:esp32:esp32c3:CDCOnBoot=cdc,PartitionScheme=default","sketch":"../build/firmware/sketch","build":"../build/firmware/arduino-build","usbVid":["0x303a"],"baud":115200}

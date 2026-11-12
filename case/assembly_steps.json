@@ -1,0 +1,233 @@
+{
+ "steps": [
+  {
+   "title": "Khung hộp",
+   "show": [
+    "frame"
+   ],
+   "focus": [
+    "frame"
+   ],
+   "camera": "iso",
+   "action": "Đặt khung nằm phẳng. Đây là thân hộp: 4 cửa sổ servo, cửa USB sau, lỗ công tắc, khe USB-C trước, 8 bệ chân có lỗ 4,2 mm. Chưa dùng vít."
+  },
+  {
+   "title": "Dán 4 giá linh kiện",
+   "show": [
+    "frame",
+    "carrier_holder",
+    "battery_cradle",
+    "charger_holder",
+    "buck_holder"
+   ],
+   "focus": [
+    "carrier_holder",
+    "battery_cradle",
+    "charger_holder",
+    "buck_holder"
+   ],
+   "camera": "top",
+   "action": "Dán đáy phẳng của carrier_holder (trước), battery_cradle (giữa), charger_holder (sát vách sau, USB-C thẳng cửa USB) và buck_holder bằng keo 502 lên sàn khung. Mạch sạc/hạ áp dán băng xốp; 2 pin 18650 buộc 1 dây rút qua gân giữa. Chưa lắp mạch."
+  },
+  {
+   "title": "Bánh răng dẫn lên servo",
+   "show": [
+    "frame",
+    "gear_drive_*"
+   ],
+   "focus": [
+    "gear_drive_*"
+   ],
+   "camera": "iso",
+   "action": "Bắt 4 servo vào cửa sổ (vít cánh servo, vít nhà máy đi kèm, không phải M3). Gắn mỗi bánh răng dẫn (gear_drive) lên càng servo bằng vít nhà máy + một giọt keo 502, mặt ngoài hướng ra.",
+   "hw": [
+    {
+     "ids": [
+      "servo flange screws"
+     ],
+     "what": "vít bắt servo (GIẢ ĐỊNH: vít nhà máy, kích thước chưa đo; 2 vít mỗi servo)",
+     "count": 8,
+     "entry": "từ trên cánh servo xuống mũi vít vào lỗ mồi 1,8 mm"
+    },
+    {
+     "ids": [
+      "servo horn screw"
+     ],
+     "what": "vít càng servo nhà máy",
+     "count": 4,
+     "entry": "vào trục servo"
+    }
+   ]
+  },
+  {
+   "title": "Chốt Q, tam giác hông và cần lắc (từ trong hộp)",
+   "show": [
+    "frame",
+    "gear_drive_*",
+    "pin_q_*",
+    "hip_triangle_*",
+    "rocker_*"
+   ],
+   "focus": [
+    "pin_q_*",
+    "hip_triangle_*",
+    "rocker_*"
+   ],
+   "camera": "iso",
+   "action": "Làm trước khi lắp mạch: đẩy mỗi chốt Q (pin_q) từ trong hộp qua lỗ Q của khung, lõi hip_triangle, vào rocker; chỉ nhỏ keo 502 vào rocker. Chốt quay được trong lỗ khung, hông quay trên chốt."
+  },
+  {
+   "title": "Chốt và bánh răng quay, khớp C",
+   "show": [
+    "frame",
+    "gear_drive_*",
+    "pin_q_*",
+    "hip_triangle_*",
+    "rocker_*",
+    "pin_crank_*",
+    "gear_crank_*",
+    "upper_link_*",
+    "lower_link_*"
+   ],
+   "focus": [
+    "pin_crank_*",
+    "gear_crank_*",
+    "upper_link_*",
+    "lower_link_*"
+   ],
+   "camera": "iso",
+   "action": "Đẩy chốt quay (pin_crank) từ ngoài qua lõi gear_crank vào lỗ O của khung, keo 502 chỉ ở lỗ khung; bánh răng quay tự do trên chốt và ăn khớp bánh răng dẫn. Bắt khớp C: vít M2×18 qua gear_crank vào đai ốc đặt trong upper_link, chỉnh hở 0,2 mm rồi nhỏ 502 lên đai ốc.",
+   "hw": [
+    {
+     "ids": [
+      "M2x18-C"
+     ],
+     "what": "vít M2×18 + đai ốc M2 trong upper_link (4 chân, mỗi chân 1)",
+     "count": 4,
+     "entry": "đầu vít ở mặt trong bánh răng quay"
+    }
+   ]
+  },
+  {
+   "title": "Khớp D và E",
+   "show": [
+    "frame",
+    "hip_triangle_*",
+    "upper_link_*",
+    "lower_link_*",
+    "shin_link_*",
+    "rocker_*",
+    "gear_crank_*"
+   ],
+   "focus": [
+    "hip_triangle_*",
+    "shin_link_*",
+    "upper_link_*"
+   ],
+   "camera": "iso",
+   "action": "Khớp D: upper_link vào hip_triangle. Khớp E: hip_triangle vào shin_link. Mỗi khớp một vít M2 với đai ốc đặt sẵn, chỉnh hở 0,2 mm, nhỏ 502 lên đai ốc.",
+   "hw": [
+    {
+     "ids": [
+      "M2x14-D"
+     ],
+     "what": "vít M2×14 + đai ốc trong hip_triangle",
+     "count": 4,
+     "entry": "đầu vít ở mặt ngoài upper_link"
+    },
+    {
+     "ids": [
+      "M2x14-E"
+     ],
+     "what": "vít M2×14 + đai ốc trong shin_link",
+     "count": 4,
+     "entry": "đầu vít ở mặt trong hip_triangle"
+    }
+   ]
+  },
+  {
+   "title": "Bàn chân, khớp F và G",
+   "show": [
+    "frame",
+    "hip_triangle_*",
+    "rocker_*",
+    "lower_link_*",
+    "shin_link_*",
+    "foot_*",
+    "upper_link_*",
+    "gear_crank_*"
+   ],
+   "focus": [
+    "foot_*"
+   ],
+   "camera": "front",
+   "action": "Khớp F: foot vào rocker và lower_link. Khớp G: foot vào shin_link. Đai ốc đặt sẵn trong rocker / shin_link; chỉnh hở 0,2 mm rồi nhỏ 502 lên đai ốc. Quay thử gear_drive một vòng: chân phải đi trơn.",
+   "hw": [
+    {
+     "ids": [
+      "M2x14-F"
+     ],
+     "what": "vít M2×14 + đai ốc trong rocker",
+     "count": 4,
+     "entry": "đầu vít ở mặt ngoài foot"
+    },
+    {
+     "ids": [
+      "M2x8-G"
+     ],
+     "what": "vít M2×8 + đai ốc trong shin_link",
+     "count": 4,
+     "entry": "đầu vít ở mặt ngoài foot"
+    }
+   ]
+  },
+  {
+   "title": "Nắp hộp",
+   "show": [
+    "frame",
+    "lid",
+    "pigtail_clip"
+   ],
+   "focus": [
+    "lid",
+    "pigtail_clip"
+   ],
+   "camera": "iso",
+   "action": "Sau khi lắp mạch và đấu dây: dán pigtail_clip (502) vào mặt dưới nắp cạnh hộp chứa dây; ép 8 đai ốc ren M3×4 vào trụ đế mở rộng; bắt OLED (4 vít M2×10 + 2 đai ốc mỗi vít) và quạt 23 mm (4 vít M3×16 + đai ốc) vào nắp; đặt nắp lên khung và siết 4 vít M3×10 tự taro vào góc.",
+   "hw": [
+    {
+     "ids": [
+      "M3x10 lid"
+     ],
+     "what": "vít M3×10 tự taro, đầu tròn",
+     "count": 4,
+     "entry": "từ trên nắp, lỗ 3,4 mm tại (±58,25, ±32,75), vào lỗ mồi 2,5 mm ở góc khung"
+    },
+    {
+     "ids": [
+      "M3x4 insert"
+     ],
+     "what": "đai ốc ren M3×4 ép nhiệt",
+     "count": 8,
+     "entry": "từ trên vào hốc 4,0 mm của trụ đế"
+    },
+    {
+     "ids": [
+      "M2x10 OLED"
+     ],
+     "what": "vít M2×10 + 2 đai ốc M2 mỗi vít",
+     "count": 4,
+     "entry": "từ mặt trên, qua lỗ 40×32"
+    },
+    {
+     "ids": [
+      "M3x16 fan"
+     ],
+     "what": "vít M3×16 + đai ốc M3",
+     "count": 4,
+     "entry": "qua lỗ vuông 23 mm"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,1059 @@
+{
+ "schema": 1,
+ "orientation": {
+  "mount": "flat",
+  "faceToUser": "top",
+  "upEdge": "front"
+ },
+ "printer": {
+  "bedMm": [
+   220,
+   220,
+   250
+  ],
+  "nozzleMm": 0.4
+ },
+ "handwired": true,
+ "note": "Moving stage: nautilus gears turn on fixed axes (drive on the servo horn at A, crank on the 4 mm pin at O); hip_triangle and rocker swing on the Q pin over their real Jansen ranges. lower_link, upper_link, shin_link and foot float (no fixed axis): tools/case/moving_check.py motion sweeps the full linkage with true kinematics against every part, screw and the frame.",
+ "joints": [
+  {
+   "name": "drive_FL",
+   "originMm": [
+    12.333,
+    0,
+    20.0
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "rangeDeg": [
+    0,
+    360
+   ],
+   "moves": [
+    "gear_drive_FL"
+   ],
+   "clearOf": [
+    "frame"
+   ],
+   "minClearanceMm": 0.25
+  },
+  {
+   "name": "crank_FL",
+   "originMm": [
+    27.3,
+    0,
+    10.0
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "rangeDeg": [
+    0,
+    360
+   ],
+   "moves": [
+    "gear_crank_FL"
+   ],
+   "clearOf": [
+    "frame"
+   ],
+   "minClearanceMm": 0.25
+  },
+  {
+   "name": "hip_FL",
+   "originMm": [
+    43.26,
+    0,
+    6.724
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "rangeDeg": [
+    -1,
+    57
+   ],
+   "moves": [
+    "hip_triangle_FL"
+   ],
+   "clearOf": [
+    "frame"
+   ],
+   "minClearanceMm": 0.25
+  },
+  {
+   "name": "rocker_FL",
+   "originMm": [
+    43.26,
+    0,
+    6.724
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "rangeDeg": [
+    -53,
+    34
+   ],
+   "moves": [
+    "rocker_FL"
+   ],
+   "clearOf": [
+    "frame"
+   ],
+   "minClearanceMm": 0.25
+  },
+  {
+   "name": "drive_FR",
+   "originMm": [
+    12.333,
+    0,
+    20.0
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "rangeDeg": [
+    0,
+    360
+   ],
+   "moves": [
+    "gear_drive_FR"
+   ],
+   "clearOf": [
+    "frame"
+   ],
+   "minClearanceMm": 0.25
+  },
+  {
+   "name": "crank_FR",
+   "originMm": [
+    27.3,
+    0,
+    10.0
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "rangeDeg": [
+    0,
+    360
+   ],
+   "moves": [
+    "gear_crank_FR"
+   ],
+   "clearOf": [
+    "frame"
+   ],
+   "minClearanceMm": 0.25
+  },
+  {
+   "name": "hip_FR",
+   "originMm": [
+    43.26,
+    0,
+    6.724
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "rangeDeg": [
+    -1,
+    57
+   ],
+   "moves": [
+    "hip_triangle_FR"
+   ],
+   "clearOf": [
+    "frame"
+   ],
+   "minClearanceMm": 0.25
+  },
+  {
+   "name": "rocker_FR",
+   "originMm": [
+    43.26,
+    0,
+    6.724
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "rangeDeg": [
+    -53,
+    34
+   ],
+   "moves": [
+    "rocker_FR"
+   ],
+   "clearOf": [
+    "frame"
+   ],
+   "minClearanceMm": 0.25
+  },
+  {
+   "name": "drive_RL",
+   "originMm": [
+    -12.333,
+    0,
+    20.0
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "rangeDeg": [
+    0,
+    360
+   ],
+   "moves": [
+    "gear_drive_RL"
+   ],
+   "clearOf": [
+    "frame"
+   ],
+   "minClearanceMm": 0.25
+  },
+  {
+   "name": "crank_RL",
+   "originMm": [
+    -27.3,
+    0,
+    10.0
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "rangeDeg": [
+    0,
+    360
+   ],
+   "moves": [
+    "gear_crank_RL"
+   ],
+   "clearOf": [
+    "frame"
+   ],
+   "minClearanceMm": 0.25
+  },
+  {
+   "name": "hip_RL",
+   "originMm": [
+    -43.26,
+    0,
+    6.724
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "rangeDeg": [
+    -57,
+    1
+   ],
+   "moves": [
+    "hip_triangle_RL"
+   ],
+   "clearOf": [
+    "frame"
+   ],
+   "minClearanceMm": 0.25
+  },
+  {
+   "name": "rocker_RL",
+   "originMm": [
+    -43.26,
+    0,
+    6.724
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "rangeDeg": [
+    -34,
+    53
+   ],
+   "moves": [
+    "rocker_RL"
+   ],
+   "clearOf": [
+    "frame"
+   ],
+   "minClearanceMm": 0.25
+  },
+  {
+   "name": "drive_RR",
+   "originMm": [
+    -12.333,
+    0,
+    20.0
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "rangeDeg": [
+    0,
+    360
+   ],
+   "moves": [
+    "gear_drive_RR"
+   ],
+   "clearOf": [
+    "frame"
+   ],
+   "minClearanceMm": 0.25
+  },
+  {
+   "name": "crank_RR",
+   "originMm": [
+    -27.3,
+    0,
+    10.0
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "rangeDeg": [
+    0,
+    360
+   ],
+   "moves": [
+    "gear_crank_RR"
+   ],
+   "clearOf": [
+    "frame"
+   ],
+   "minClearanceMm": 0.25
+  },
+  {
+   "name": "hip_RR",
+   "originMm": [
+    -43.26,
+    0,
+    6.724
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "rangeDeg": [
+    -57,
+    1
+   ],
+   "moves": [
+    "hip_triangle_RR"
+   ],
+   "clearOf": [
+    "frame"
+   ],
+   "minClearanceMm": 0.25
+  },
+  {
+   "name": "rocker_RR",
+   "originMm": [
+    -43.26,
+    0,
+    6.724
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "rangeDeg": [
+    -34,
+    53
+   ],
+   "moves": [
+    "rocker_RR"
+   ],
+   "clearOf": [
+    "frame"
+   ],
+   "minClearanceMm": 0.25
+  }
+ ],
+ "wires": [
+  {
+   "name": "servo_FL to J3",
+   "clearDiameterMm": 8.5,
+   "routes": [
+    {
+     "name": "over the cells",
+     "pointsMm": [
+      [
+       31,
+       27,
+       18
+      ],
+      [
+       40,
+       20,
+       22
+      ],
+      [
+       49,
+       12,
+       20
+      ]
+     ]
+    },
+    {
+     "name": "low side gap",
+     "pointsMm": [
+      [
+       31,
+       27,
+       18
+      ],
+      [
+       36,
+       27,
+       12
+      ],
+      [
+       44,
+       26,
+       12
+      ],
+      [
+       48,
+       17,
+       12
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "servo_FR to J4",
+   "clearDiameterMm": 8.5,
+   "routes": [
+    {
+     "name": "over the cells",
+     "pointsMm": [
+      [
+       31,
+       -27,
+       18
+      ],
+      [
+       40,
+       -20,
+       22
+      ],
+      [
+       49,
+       -12,
+       20
+      ]
+     ]
+    },
+    {
+     "name": "low side gap",
+     "pointsMm": [
+      [
+       31,
+       -27,
+       18
+      ],
+      [
+       36,
+       -27,
+       12
+      ],
+      [
+       44,
+       -26,
+       12
+      ],
+      [
+       48,
+       -17,
+       12
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "servo_RL to J5",
+   "clearDiameterMm": 8.5,
+   "routes": [
+    {
+     "name": "over the cells",
+     "pointsMm": [
+      [
+       -31,
+       27,
+       18
+      ],
+      [
+       -20,
+       22,
+       23.9
+      ],
+      [
+       10,
+       18,
+       23.9
+      ],
+      [
+       40,
+       14,
+       21
+      ]
+     ]
+    },
+    {
+     "name": "under the servos, left gap",
+     "pointsMm": [
+      [
+       -31,
+       27,
+       18
+      ],
+      [
+       -31,
+       27,
+       10
+      ],
+      [
+       32,
+       27,
+       10
+      ],
+      [
+       44,
+       26,
+       12
+      ],
+      [
+       48,
+       17,
+       12
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "servo_RR to J6",
+   "clearDiameterMm": 8.5,
+   "routes": [
+    {
+     "name": "over the cells",
+     "pointsMm": [
+      [
+       -31,
+       -27,
+       18
+      ],
+      [
+       -20,
+       -22,
+       23.9
+      ],
+      [
+       10,
+       -18,
+       23.9
+      ],
+      [
+       40,
+       -14,
+       21
+      ]
+     ]
+    },
+    {
+     "name": "under the servos, right gap",
+     "pointsMm": [
+      [
+       -31,
+       -27,
+       18
+      ],
+      [
+       -31,
+       -27,
+       10
+      ],
+      [
+       32,
+       -27,
+       10
+      ],
+      [
+       44,
+       -26,
+       12
+      ],
+      [
+       48,
+       -17,
+       12
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "power: CHG1 P+/P- to SW1 to BUCK1",
+   "clearDiameterMm": 5,
+   "routes": [
+    {
+     "name": "rear bay, above the trays",
+     "pointsMm": [
+      [
+       -45,
+       12,
+       14
+      ],
+      [
+       -50,
+       -2,
+       15
+      ],
+      [
+       -50,
+       -12,
+       15
+      ],
+      [
+       -42,
+       -22,
+       12
+      ]
+     ]
+    },
+    {
+     "name": "rear bay, behind the cradle",
+     "pointsMm": [
+      [
+       -38,
+       12,
+       14
+      ],
+      [
+       -35,
+       0,
+       16
+      ],
+      [
+       -36,
+       -14,
+       12
+      ],
+      [
+       -40,
+       -22,
+       10
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "power: BUCK1 to J1 and VBAT_SW to J2",
+   "clearDiameterMm": 5,
+   "routes": [
+    {
+     "name": "right side gap under the servos",
+     "pointsMm": [
+      [
+       -34,
+       -24,
+       9
+      ],
+      [
+       -29,
+       -27,
+       9
+      ],
+      [
+       32,
+       -27,
+       9
+      ],
+      [
+       44,
+       -26,
+       12
+      ],
+      [
+       48,
+       -17,
+       12
+      ]
+     ]
+    },
+    {
+     "name": "over the cells",
+     "pointsMm": [
+      [
+       -34,
+       -24,
+       14
+      ],
+      [
+       -30,
+       -15,
+       25
+      ],
+      [
+       35,
+       -12,
+       25
+      ],
+      [
+       45,
+       -12,
+       18
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "FAN1 to J8",
+   "clearDiameterMm": 6,
+   "routes": [
+    {
+     "name": "over the left cell",
+     "pointsMm": [
+      [
+       -30,
+       5,
+       23.5
+      ],
+      [
+       -5,
+       12,
+       23.5
+      ],
+      [
+       15,
+       12,
+       23.5
+      ],
+      [
+       44,
+       10,
+       20
+      ]
+     ]
+    },
+    {
+     "name": "over the right cell",
+     "pointsMm": [
+      [
+       -30,
+       -5,
+       23.5
+      ],
+      [
+       -5,
+       -12,
+       23.5
+      ],
+      [
+       15,
+       -12,
+       23.5
+      ],
+      [
+       44,
+       -10,
+       20
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "DISP1 OLED to J7",
+   "clearDiameterMm": 10.5,
+   "routes": [
+    {
+     "name": "left of the SuperMini",
+     "pointsMm": [
+      [
+       30,
+       6,
+       22
+      ],
+      [
+       45,
+       14,
+       17
+      ]
+     ]
+    },
+    {
+     "name": "right of the SuperMini",
+     "pointsMm": [
+      [
+       30,
+       -6,
+       22
+      ],
+      [
+       45,
+       -14,
+       17
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "J9 expansion pigtail to stow at the deck hole",
+   "clearDiameterMm": 8.5,
+   "routes": [
+    {
+     "name": "right, over the cells",
+     "pointsMm": [
+      [
+       45,
+       -12,
+       20
+      ],
+      [
+       10,
+       -14,
+       23.8
+      ],
+      [
+       -5,
+       -5,
+       23.8
+      ]
+     ]
+    },
+    {
+     "name": "left, over the cells",
+     "pointsMm": [
+      [
+       45,
+       12,
+       20
+      ],
+      [
+       10,
+       14,
+       23.9
+      ],
+      [
+       -5,
+       5,
+       23.9
+      ]
+     ]
+    }
+   ]
+  }
+ ],
+ "fits": [
+  {
+   "name": "servo body through the side-wall window, flange on the outer wall face",
+   "testPart": "coupon_servo_seat_TEST_ONLY"
+  },
+  {
+   "name": "servo flange factory self-tap screws into wall + inside pad pilots",
+   "testPart": "coupon_servo_seat_TEST_ONLY"
+  },
+  {
+   "name": "4 mm crank-axle pin in the crank pad hole",
+   "testPart": "coupon_servo_seat_TEST_ONLY"
+  },
+  {
+   "name": "4 mm fixed-pivot Q pin in the Q pad hole",
+   "testPart": "coupon_servo_seat_TEST_ONLY"
+  },
+  {
+   "name": "carrier PCB on the 4 M2 self-tap posts of carrier_holder",
+   "testPart": "coupon_mounts_TEST_ONLY"
+  },
+  {
+   "name": "carrier_holder glued (502) flat on the frame floor",
+   "testPart": "coupon_mounts_TEST_ONLY"
+  },
+  {
+   "name": "18650 cells in the battery_cradle saddles + cable tie through the centre rib",
+   "testPart": "coupon_mounts_TEST_ONLY"
+  },
+  {
+   "name": "battery_cradle glued (502) flat on the frame floor",
+   "testPart": "coupon_mounts_TEST_ONLY"
+  },
+  {
+   "name": "CHG1 on charger_holder rails between the lips, foam tape",
+   "testPart": "coupon_mounts_TEST_ONLY"
+  },
+  {
+   "name": "charger_holder glued (502) flat on the frame floor at the back wall",
+   "testPart": "coupon_mounts_TEST_ONLY"
+  },
+  {
+   "name": "BUCK1 in buck_holder tray, foam tape",
+   "testPart": "coupon_mounts_TEST_ONLY"
+  },
+  {
+   "name": "buck_holder glued (502) flat on the frame floor",
+   "testPart": "coupon_mounts_TEST_ONLY"
+  },
+  {
+   "name": "CHG1 USB-C plug through the back-wall 24 x 18 opening",
+   "testPart": "coupon_mounts_TEST_ONLY"
+  },
+  {
+   "name": "SW1 panel switch in the 7 mm back-wall hole",
+   "testPart": "coupon_mounts_TEST_ONLY"
+  },
+  {
+   "name": "SuperMini USB-C plug through the front 14 x 9 service slot",
+   "testPart": "coupon_mounts_TEST_ONLY"
+  },
+  {
+   "name": "M3 self-tap lid screw in the corner boss pilot",
+   "testPart": "coupon_mounts_TEST_ONLY"
+  },
+  {
+   "name": "drive gear on the servo horn: horn screws into the 1.5 mm pilots + CA glue, horn screw through the 4 mm bore",
+   "testPart": "coupon_gear_pair_TEST_ONLY"
+  },
+  {
+   "name": "nautilus drive/crank gear mesh at 18 mm centres through a full turn (0.4 mm backoff each)",
+   "testPart": "coupon_gear_pair_TEST_ONLY"
+  },
+  {
+   "name": "crank gear hub turning on the 4 mm crank pin (4.2 mm bore)",
+   "testPart": "coupon_gear_pair_TEST_ONLY"
+  },
+  {
+   "name": "4 mm crank pin pushed from outside through the crank gear hub into the frame crank hole, CA in the frame hole; gear turns with 0.3 mm end play (pin in the frame hole itself: coupon_servo_seat_TEST_ONLY)",
+   "testPart": "coupon_leg_joint_TEST_ONLY"
+  },
+  {
+   "name": "4 mm Q pin pushed from inside through the frame Q bore and the hip_triangle hub into the rocker, CA in the rocker only; pin turns in the frame bore, hip hub turns on the pin, 0.3 mm end play (pin in the frame bore itself: coupon_servo_seat_TEST_ONLY)",
+   "testPart": "coupon_leg_joint_TEST_ONLY"
+  },
+  {
+   "name": "M2 screw + nut trapped in a link (joints C, D, E, F, G): nut pressed into its hex pocket, 0.2 mm play, nut locked with CA",
+   "testPart": "coupon_leg_joint_TEST_ONLY"
+  },
+  {
+   "name": "links turning on the M2 shank in 2.4 mm holes",
+   "testPart": "coupon_leg_joint_TEST_ONLY"
+  },
+  {
+   "name": "lid on the frame: 4x M3 x 10 self-tap through the 3.4 mm lid holes into the frame corner pilots",
+   "testPart": "coupon_lid_TEST_ONLY"
+  },
+  {
+   "name": "M3 self-tap thread in the 2.5 mm frame corner pilot",
+   "testPart": "coupon_mounts_TEST_ONLY"
+  },
+  {
+   "name": "OLED module on its 40 x 32 holes (M2 x 10 + nut spacer), glass behind the 36 x 19 window",
+   "testPart": "coupon_lid_TEST_ONLY"
+  },
+  {
+   "name": "30 mm fan on its 23 mm hole square (M3 x 16 + nuts) under the 27 mm opening",
+   "testPart": "coupon_lid_TEST_ONLY"
+  },
+  {
+   "name": "M3 heat-set insert pressed into a 4.0 x 5 mm deck post pocket",
+   "testPart": "coupon_lid_TEST_ONLY"
+  },
+  {
+   "name": "6-wire pigtail bundle snapped into the pigtail_clip slot; 1x6 housing pulled out through the 12 mm hole",
+   "testPart": "coupon_lid_TEST_ONLY"
+  },
+  {
+   "name": "pigtail_clip glued (502) flat on the lid underside",
+   "testPart": "coupon_lid_TEST_ONLY"
+  }
+ ],
+ "skins": [
+  {
+   "part": "coupon_servo_seat_TEST_ONLY",
+   "centerMm": [
+    14.0,
+    107.6,
+    1.7
+   ],
+   "radiusMm": 6.5,
+   "reason": "engraved TEST tag strokes (coupon only)"
+  },
+  {
+   "part": "coupon_mounts_TEST_ONLY",
+   "centerMm": [
+    -56.0,
+    -129.0,
+    1.7
+   ],
+   "radiusMm": 6.5,
+   "reason": "engraved TEST tag strokes (coupon only)"
+  },
+  {
+   "part": "coupon_gear_pair_TEST_ONLY",
+   "centerMm": [
+    109.0,
+    -68.5,
+    1.7
+   ],
+   "radiusMm": 6.5,
+   "reason": "engraved TEST tag strokes (coupon only)"
+  },
+  {
+   "part": "coupon_leg_joint_TEST_ONLY",
+   "centerMm": [
+    96.0,
+    16.0,
+    1.2
+   ],
+   "radiusMm": 7.5,
+   "reason": "engraved TEST tag strokes (coupon only)"
+  },
+  {
+   "part": "coupon_lid_TEST_ONLY",
+   "centerMm": [
+    -33.0,
+    167.0,
+    2.0
+   ],
+   "radiusMm": 7.0,
+   "reason": "engraved TEST tag strokes (coupon only)"
+  }
+ ]
+}

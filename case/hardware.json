@@ -1,0 +1,87 @@
+{
+ "perLeg": [
+  {
+   "id": "M2x18-C",
+   "joint": "C",
+   "thread": "M2",
+   "lengthMm": 18,
+   "head": "pan/cap, Phillips or 1.5 hex (GI\u1ea2 \u0110\u1ecaNH)",
+   "nut": "M2 hex nut trapped in upper_link",
+   "lock": "drop of CA (502) on the nut after setting 0.2 mm play",
+   "note": "head on the crank gear inner face"
+  },
+  {
+   "id": "M2x14-D",
+   "joint": "D",
+   "thread": "M2",
+   "lengthMm": 14,
+   "head": "pan/cap, Phillips or 1.5 hex (GI\u1ea2 \u0110\u1ecaNH)",
+   "nut": "M2 hex nut trapped in hip_triangle",
+   "lock": "drop of CA (502) on the nut after setting 0.2 mm play",
+   "note": "head on upper_link outer face"
+  },
+  {
+   "id": "M2x14-E",
+   "joint": "E",
+   "thread": "M2",
+   "lengthMm": 14,
+   "head": "pan/cap, Phillips or 1.5 hex (GI\u1ea2 \u0110\u1ecaNH)",
+   "nut": "M2 hex nut trapped in shin_link",
+   "lock": "drop of CA (502) on the nut after setting 0.2 mm play",
+   "note": "head on hip_triangle inner face"
+  },
+  {
+   "id": "M2x14-F",
+   "joint": "F",
+   "thread": "M2",
+   "lengthMm": 14,
+   "head": "pan/cap, Phillips or 1.5 hex (GI\u1ea2 \u0110\u1ecaNH)",
+   "nut": "M2 hex nut trapped in rocker",
+   "lock": "drop of CA (502) on the nut after setting 0.2 mm play",
+   "note": "head on foot outer face"
+  },
+  {
+   "id": "M2x8-G",
+   "joint": "G",
+   "thread": "M2",
+   "lengthMm": 8,
+   "head": "pan/cap, Phillips or 1.5 hex (GI\u1ea2 \u0110\u1ecaNH)",
+   "nut": "M2 hex nut trapped in shin_link",
+   "lock": "drop of CA (502) on the nut after setting 0.2 mm play",
+   "note": "head on foot outer face"
+  }
+ ],
+ "totals": {
+  "M2x14": 12,
+  "M2x18": 4,
+  "M2x8": 4,
+  "M2 hex nut": 20
+ },
+ "printedPins": {
+  "pin_crank": "4 mm x 18.7 shank + 7x2 head outside; push from outside, CA in the frame hole",
+  "pin_q": "4 mm x 25.3 shank + 6x3x1.9 head inside; push from inside before the electronics, CA in the rocker only"
+ },
+ "lid": {
+  "lidScrews": {
+   "qty": 4,
+   "item": "M3 x 10 self-tapping (pan head)",
+   "where": "lid holes 3.4 at (\u00b158.25, \u00b132.75) into the frame corner pilots 2.5 x 10 deep (7.5 mm of thread)"
+  },
+  "deckInserts": {
+   "qty": 8,
+   "item": "M3 x 4 mm heat-set insert, OD about 4.6",
+   "where": "deck post pockets 4.0 x 5.0 deep"
+  },
+  "oled": {
+   "qty": 4,
+   "item": "M2 x 10 screw + 2 M2 nuts each (one nut under the lid as a spacer)",
+   "where": "OLED 40 x 32 holes; glass faces the 36 x 19 window (GI\u1ea2 \u0110\u1ecaNH module layout)"
+  },
+  "fan": {
+   "qty": 4,
+   "item": "M3 x 16 screw + M3 nut",
+   "where": "fan 23 mm square, fan hangs under the 27 mm opening, exhausting up"
+  },
+  "pigtailClip": "printed pigtail_clip glued (502) to the lid underside; the 6-wire bundle snaps into its slot"
+ }
+}

@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "note": "Dummy/ERC carrier (never ordered). All parts are hand-assembled (manual). MPNs are standard catalogue parts chosen as reference; none were checked against a live supplier listing in this session, so no LCSC codes are given. GIA DINH (ASSUMPTION) marks every unverified identity.",
+  "parts": [
+    {"refdes": ["U1"], "manufacturer": "Nologo (no-brand clone)", "mpn": "ESP32-C3 SuperMini", "value": "ESP32-C3 SuperMini", "project_footprint": "ESP32C3_SuperMini_2x8_P2.54", "assumption": "GIA DINH: module 22.5 x 18 mm, pin rows 15.24 mm apart, pin order from the module card (left row IO5..IO21, right row 5V,GND,3V3,IO4..IO0). Soldered onto two 1x8 MALE 2.54 mm headers (Wurth 61300811121, plastic base 2.5 mm) so the module bottom sits 2.5 mm above the board top as sealed (z 9.1); NOT on female sockets (8.5 mm seat would raise the USB-C ~6 mm out of the front-wall slot)."},
+    {"refdes": ["J1", "J2", "J8"], "manufacturer": "Wurth Elektronik", "mpn": "61300211121", "value": "1x2 2.54 mm pin header", "project_footprint": "PinHeader_1x02_P2.54mm_Vertical"},
+    {"refdes": ["J3", "J4", "J5", "J6"], "manufacturer": "Wurth Elektronik", "mpn": "61300311121", "value": "1x3 2.54 mm pin header", "project_footprint": "PinHeader_1x03_P2.54mm_Vertical"},
+    {"refdes": ["J7"], "manufacturer": "Wurth Elektronik", "mpn": "61300411121", "value": "1x4 2.54 mm pin header", "project_footprint": "PinHeader_1x04_P2.54mm_Vertical"},
+    {"refdes": ["J9"], "manufacturer": "Wurth Elektronik", "mpn": "61300611121", "value": "1x6 2.54 mm pin header", "project_footprint": "PinHeader_1x06_P2.54mm_Vertical"},
+    {"refdes": ["R1", "R2"], "manufacturer": "Yageo", "mpn": "RC0805FR-074K7L", "value": "4.7k", "project_footprint": "R_0805_2012Metric"},
+    {"refdes": ["R3"], "manufacturer": "Yageo", "mpn": "RC0805FR-07100KL", "value": "100k", "project_footprint": "R_0805_2012Metric"},
+    {"refdes": ["R4"], "manufacturer": "Yageo", "mpn": "RC0805FR-0733KL", "value": "33k", "project_footprint": "R_0805_2012Metric"},
+    {"refdes": ["R5", "R6", "R7", "R8"], "manufacturer": "Yageo", "mpn": "RC0805FR-0710KL", "value": "10k", "project_footprint": "R_0805_2012Metric"},
+    {"refdes": ["C2", "C3", "C4"], "manufacturer": "Samsung Electro-Mechanics", "mpn": "CL21B104KBCNNNC", "value": "100nF", "project_footprint": "C_0805_2012Metric"},
+    {"refdes": ["C1"], "manufacturer": "Rubycon", "mpn": "10ZLH1000MEFC8X11.5", "value": "1000uF 10V", "project_footprint": "CP_Radial_D8.0mm_P3.50mm", "assumption": "GIA DINH: 8 mm x 11.5 mm radial, 10 V (>= 10 V required); the size must be confirmed on the real part. Max height 14 mm above the board top; if the real part is taller, lay it flat."},
+    {"refdes": ["D1"], "manufacturer": "Vishay", "mpn": "SS14-E3/61T", "value": "SS14 Schottky 40V 1A", "project_footprint": "D_SMA", "assumption": "GIA DINH: 1 A average is enough for the MCU branch only (<= 0.5 A); the servos never pass through D1."}
+  ]
+}

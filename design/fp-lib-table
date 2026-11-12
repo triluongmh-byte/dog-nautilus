@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "nautilus")(type "KiCad")(uri "${KIPRJMOD}/nautilus.pretty")(options "")(descr "local footprints"))
+)

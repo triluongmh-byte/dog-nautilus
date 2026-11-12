@@ -1,0 +1,220 @@
+{
+ "stages": {
+  "simple": {
+   "parts": [
+    "frame",
+    "carrier_holder",
+    "battery_cradle",
+    "charger_holder",
+    "buck_holder",
+    "coupon_servo_seat_TEST_ONLY",
+    "coupon_mounts_TEST_ONLY"
+   ],
+   "glueOn": [
+    "carrier_holder",
+    "battery_cradle",
+    "charger_holder",
+    "buck_holder"
+   ]
+  },
+  "moving": {
+   "parts": [
+    "gear_drive_FL",
+    "gear_crank_FL",
+    "hip_triangle_FL",
+    "rocker_FL",
+    "lower_link_FL",
+    "shin_link_FL",
+    "upper_link_FL",
+    "foot_FL",
+    "gear_drive_FR",
+    "gear_crank_FR",
+    "hip_triangle_FR",
+    "rocker_FR",
+    "lower_link_FR",
+    "shin_link_FR",
+    "upper_link_FR",
+    "foot_FR",
+    "gear_drive_RL",
+    "gear_crank_RL",
+    "hip_triangle_RL",
+    "rocker_RL",
+    "lower_link_RL",
+    "shin_link_RL",
+    "upper_link_RL",
+    "foot_RL",
+    "gear_drive_RR",
+    "gear_crank_RR",
+    "hip_triangle_RR",
+    "rocker_RR",
+    "lower_link_RR",
+    "shin_link_RR",
+    "upper_link_RR",
+    "foot_RR",
+    "coupon_gear_pair_TEST_ONLY"
+   ]
+  },
+  "joints": {
+   "parts": [
+    "pin_crank_FL",
+    "pin_q_FL",
+    "pin_crank_FR",
+    "pin_q_FR",
+    "pin_crank_RL",
+    "pin_q_RL",
+    "pin_crank_RR",
+    "pin_q_RR",
+    "coupon_leg_joint_TEST_ONLY"
+   ]
+  },
+  "lid": {
+   "parts": [
+    "lid",
+    "pigtail_clip",
+    "coupon_lid_TEST_ONLY"
+   ]
+  }
+ },
+ "checks": [
+  {
+   "name": "simple-print-defects-keepouts",
+   "stage": "simple",
+   "parts": [
+    "frame",
+    "carrier_holder",
+    "battery_cradle",
+    "charger_holder",
+    "buck_holder",
+    "coupon_servo_seat_TEST_ONLY",
+    "coupon_mounts_TEST_ONLY"
+   ],
+   "script": "tools/case/simple_check.py",
+   "args": [],
+   "report": "case/reports/mechanical.json",
+   "timeoutSeconds": 600
+  },
+  {
+   "name": "moving-print",
+   "stage": "moving",
+   "kind": "print",
+   "parts": [
+    "gear_drive_FL",
+    "gear_crank_FL",
+    "hip_triangle_FL",
+    "rocker_FL",
+    "lower_link_FL",
+    "shin_link_FL",
+    "upper_link_FL",
+    "foot_FL",
+    "gear_drive_FR",
+    "gear_crank_FR",
+    "hip_triangle_FR",
+    "rocker_FR",
+    "lower_link_FR",
+    "shin_link_FR",
+    "upper_link_FR",
+    "foot_FR",
+    "gear_drive_RL",
+    "gear_crank_RL",
+    "hip_triangle_RL",
+    "rocker_RL",
+    "lower_link_RL",
+    "shin_link_RL",
+    "upper_link_RL",
+    "foot_RL",
+    "gear_drive_RR",
+    "gear_crank_RR",
+    "hip_triangle_RR",
+    "rocker_RR",
+    "lower_link_RR",
+    "shin_link_RR",
+    "upper_link_RR",
+    "foot_RR",
+    "coupon_gear_pair_TEST_ONLY"
+   ],
+   "script": "tools/case/moving_check.py",
+   "args": [
+    "print"
+   ],
+   "report": "case/reports/moving-print.json",
+   "timeoutSeconds": 900
+  },
+  {
+   "name": "moving-motion-sweep",
+   "stage": "moving",
+   "kind": "motion",
+   "parts": [
+    "gear_drive_FL",
+    "gear_crank_FL",
+    "hip_triangle_FL",
+    "rocker_FL",
+    "lower_link_FL",
+    "shin_link_FL",
+    "upper_link_FL",
+    "foot_FL",
+    "gear_drive_FR",
+    "gear_crank_FR",
+    "hip_triangle_FR",
+    "rocker_FR",
+    "lower_link_FR",
+    "shin_link_FR",
+    "upper_link_FR",
+    "foot_FR",
+    "gear_drive_RL",
+    "gear_crank_RL",
+    "hip_triangle_RL",
+    "rocker_RL",
+    "lower_link_RL",
+    "shin_link_RL",
+    "upper_link_RL",
+    "foot_RL",
+    "gear_drive_RR",
+    "gear_crank_RR",
+    "hip_triangle_RR",
+    "rocker_RR",
+    "lower_link_RR",
+    "shin_link_RR",
+    "upper_link_RR",
+    "foot_RR"
+   ],
+   "script": "tools/case/moving_check.py",
+   "args": [
+    "motion"
+   ],
+   "report": "case/reports/moving-motion.json",
+   "timeoutSeconds": 1800
+  },
+  {
+   "name": "joints-pins-screws-sweep",
+   "stage": "joints",
+   "parts": [
+    "pin_crank_FL",
+    "pin_q_FL",
+    "pin_crank_FR",
+    "pin_q_FR",
+    "pin_crank_RL",
+    "pin_q_RL",
+    "pin_crank_RR",
+    "pin_q_RR",
+    "coupon_leg_joint_TEST_ONLY"
+   ],
+   "script": "tools/case/joints_check.py",
+   "args": [],
+   "report": "case/reports/joints.json",
+   "timeoutSeconds": 1800
+  },
+  {
+   "name": "lid-print-fit-keepouts",
+   "stage": "lid",
+   "parts": [
+    "lid",
+    "pigtail_clip",
+    "coupon_lid_TEST_ONLY"
+   ],
+   "script": "tools/case/lid_check.py",
+   "args": [],
+   "report": "case/reports/lid.json",
+   "timeoutSeconds": 900
+  }
+ ]
+}
