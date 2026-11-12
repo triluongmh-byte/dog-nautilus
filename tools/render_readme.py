@@ -62,7 +62,7 @@ def render(parts, filename, title, elev, azim, opened=False, side=False):
     center = (lo + hi) / 2; span = hi - lo
     for dim, setter in enumerate((ax.set_xlim, ax.set_ylim, ax.set_zlim)):
         setter(center[dim] - span[dim] * .56, center[dim] + span[dim] * .56)
-    ax.set_box_aspect(span, zoom=1.5 if side else (1.12 if opened else 1.25))
+    ax.set_box_aspect(span)
     ax.set_proj_type("ortho")
     ax.view_init(elev=elev, azim=azim)
     ax.set_axis_off()
