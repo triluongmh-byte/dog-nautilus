@@ -35,6 +35,10 @@ def board():
     cli = toolchain.executable("cli")
     need_exe(str(cli), "KiCad CLI")
     run(["zsh", "tools/board/publish.sh"])
+    # KiCad's STEP exporter can update its ignored personal-settings file.
+    # Run it before the final publication so that nothing changes afterwards.
+    run([str(cli), "pcb", "export", "step", "--force", "--board-only", "-o", "build/board/main.step", "design/main.kicad_pcb"], 180)
+    shutil.copytree("design", "build/board/pub/design", dirs_exist_ok=True)
     run([HOST, "tools/board/make_manufacturing.py"])
     run(["zsh", "tools/board/publish.sh"])
     sidecar = json.loads(Path("boards/main.board.json").read_text())
@@ -45,8 +49,12 @@ def board():
     if not manufacturing.get("prototypeReady") or not sidecar.get("fab", {}).get("ready"):
         raise RuntimeError("Manufacturing review is not current/passed; see the published report.")
     Path("build/board-validation.json").write_text(json.dumps({"native": json.loads(current.read_text()), "manufacturing": manufacturing, "hardwareTested": False}, indent=2) + "\n")
-    run([str(cli), "pcb", "export", "step", "--force", "--board-only", "-o", "boards/main.step", "design/main.kicad_pcb"], 180)
-    run([HOST, "-m", "kicadpy.verify", "stale", "."])
+    shutil.copyfile("build/board/main.step", "boards/main.step")
+    stale = subprocess.run([HOST, "-m", "kicadpy.verify", "stale", "."], capture_output=True, text=True, check=True)
+    print(stale.stdout, end="", flush=True)
+    result = json.loads(stale.stdout.strip().splitlines()[-1])
+    if result.get("result", {}).get("stale"):
+        raise RuntimeError("Native outputs are stale after board export")
 
 
 def case():
