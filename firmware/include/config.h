@@ -38,12 +38,19 @@ static const int8_t SERVO_SIGN_DEFAULT[LEG_COUNT] = {+1, -1, +1, -1};
 #define PHASE_KP 3.0f              // phase-error gain (rev/s per rev)
 #define PHASE_CMD_TRIM_MAX 0.35f   // max correction added to command
 #define GAIT_TICK_MS 10
-#define TURN_INNER_SCALE 0.35f     // inner side speed factor in a gentle turn
+#define TURN_INNER_SCALE 0.35f     // inner side speed factor in a diagonal (arc) move
+#define JOY_DEADZONE 0.10f         // joystick: centre 10 % of each axis does nothing
+#define JOY_SEND_MS 100            // page resends joystick / held button this often
+#define WIGGLE_COUNT 6             // "love" emote: number of left-right sways
+#define WIGGLE_HALF_MS 250         // each swing direction lasts this long (first/last are half)
+#define WIGGLE_SPEED 0.45f         // pivot command during the sway, fraction of full speed
+#define LOVE_FACE_HOLD_MS 2000     // heart-eyes face stays this long after the sway
+#define PIVOT_SCALE 0.7f           // both sides at this fraction of the speed when spinning in place
 #define NUDGE_MS 120               // calibration nudge pulse length
 #define NUDGE_CMD 0.5f             // nudge command (fraction of full)
 
 // ---- Safety ----
-#define WATCHDOG_MS 1000
+#define WATCHDOG_MS 1000  // stop if the driving phone sends no move command for this long
 #define LOW_BATT_CUTOFF_V 6.6f
 #define LOW_BATT_RESUME_V 6.9f
 #define LOW_BATT_DEBOUNCE_MS 2000   // servo current sags VBAT; require sustained low

@@ -29,7 +29,7 @@ U1 centre (49.25, 0), pad rows y -7.62 (pads 1-8, USB end = +X) and +7.62 (pads 
 
 ## Open assumptions
 - GIA DINH: SuperMini row spacing 15.24 mm, pin order per module card, module overhangs the board 0.75 mm at +X (DEVIATIONS.md #1).
-- GIA DINH: C1 1000 uF 10 V 8 x 11.5 mm (Rubycon 10ZLH1000MEFC8X11.5 not live-checked); CHG1 protection >= 3 A.
+- GIA DINH: C1 1000 uF 10 V 8 x 11.5 mm (Rubycon 10PX1000MEFC8X11.5, LCSC listing only); CHG1 not chosen (needs >= 5 A discharge); BUCK1 = Pololu S13V30F5.
 - Plug height <= 14 mm unverified (DEVIATIONS.md #3); U1 on MALE headers (#4).
-- Shared +5V trunk is limited to ~1.5 A on the dummy board (power.md): real servo power uses wire.
+- Servo power is wired to a splice at the buck (power.md, harness.md); board trunk carries <= 1.0 A.
 - No part identities were live-checked (no web); no LCSC codes; all assembly manual.

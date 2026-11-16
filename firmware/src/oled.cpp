@@ -76,11 +76,33 @@ static void drawSmiley(int batteryPct, float volts) {
   u8g2.drawStr(78, 56, b);
 }
 
-void Oled::update(int clients, int batteryPct, float volts, bool lowBatt) {
+static void drawHeart(int cx, int cy, int r) {  // two discs + a point; r = lobe radius
+  u8g2.drawDisc(cx - r, cy - r / 2, r);
+  u8g2.drawDisc(cx + r, cy - r / 2, r);
+  u8g2.drawTriangle(cx - 2 * r, cy - r / 2 + 1, cx + 2 * r, cy - r / 2 + 1, cx, cy + 2 * r);
+}
+
+static void drawLove(int batteryPct) {
+  u8g2.drawCircle(32, 32, 26);
+  drawHeart(22, 24, 4);
+  drawHeart(42, 24, 4);
+  u8g2.drawLine(20, 38, 22, 42);  // same smile as drawSmiley
+  u8g2.drawLine(22, 42, 27, 45);
+  u8g2.drawLine(27, 45, 37, 45);
+  u8g2.drawLine(37, 45, 42, 42);
+  u8g2.drawLine(42, 42, 44, 38);
+  u8g2.setFont(u8g2_font_logisoso24_tn);
+  char b[8];
+  snprintf(b, sizeof b, "%d%%", batteryPct);
+  u8g2.drawStr(70, 40, b);
+  drawHeart(96, 52, 3);
+}
+
+void Oled::update(int clients, int batteryPct, float volts, bool lowBatt, bool love) {
   if (!g_present) return;
   uint32_t now = millis();
   bool connected = clients > 0;
-  int page = connected ? 2 : (int)((now / QR_PHASE_MS) % 2);
+  int page = love ? 3 : connected ? 2 : (int)((now / QR_PHASE_MS) % 2);
   int key = lowBatt ? 9 : page * 1000 + (connected ? batteryPct : 0);
   if (key == g_lastKey && now - g_lastDraw < 1000) return;
   if (now - g_lastDraw < 250) return;
@@ -112,6 +134,8 @@ void Oled::update(int clients, int batteryPct, float volts, bool lowBatt) {
     u8g2.drawStr(68, 10, "2. Open page");
     u8g2.drawStr(68, 30, "192.168.4.1");
     u8g2.drawStr(68, 60, "scan QR");
+  } else if (page == 3) {
+    drawLove(batteryPct);
   } else {
     drawSmiley(batteryPct, volts);
   }

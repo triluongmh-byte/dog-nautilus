@@ -21,27 +21,61 @@ small{color:#999}input[type=number]{width:70px}a{color:#8cf}
 )CSS";
 
 static const char PAGE_INDEX[] PROGMEM = R"HTML(<!doctype html><html><head><meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1"><title>Nautilus Dog</title>
-<style>%CSS%</style></head><body>
-<h2>Nautilus Dog <small id=lnk class=bad>offline</small></h2>
-<div>Battery: <b id=bat>--</b>% <small id=volt></small> <b id=low class=bad></b></div>
-<div class=row><span></span><button onclick="d('F')">&#9650; Forward</button><span></span></div>
-<div class=row><button onclick="d('L')">&#9664; Left</button><button class=s onclick="d('S')">Stop</button><button onclick="d('R')">Right &#9654;</button></div>
-<div class=row><span></span><button onclick="d('B')">&#9660; Back</button><span></span></div>
-<h3>Speed <span id=spv>50</span>%</h3>
-<input type=range id=sp min=0 max=100 value=50 oninput="sp()">
-<h3>Gait</h3>
-<div class=row><button class=g id=g0 onclick="gt('trot')">Trot</button><button class=g id=g1 onclick="gt('walk')">Walk</button></div>
-<p><a href="/cal">Calibration</a></p>
+<meta name=viewport content="width=device-width,initial-scale=1,user-scalable=no"><title>Nautilus Dog</title>
+<style>%CSS%
+body{max-width:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+#wrap{display:flex;flex-direction:column;gap:10px}
+#pad{position:relative;width:min(88vw,52vh,420px);aspect-ratio:1;margin:auto;border-radius:50%;background:#222;border:2px solid #444;touch-action:none}
+#knob{position:absolute;left:50%;top:50%;width:28%;height:28%;margin:-14% 0 0 -14%;border-radius:50%;background:#2a6;pointer-events:none}
+.btns button{padding:12px 0;font-size:22px;touch-action:none}
+#stop{font-size:22px;padding:18px 0}
+#lock{display:none;background:#633;padding:10px;border-radius:8px;text-align:center}
+@media (orientation:landscape){#wrap{flex-direction:row;align-items:center}#wrap>div{flex:1}#pad{width:min(46vw,80vh)}}
+</style></head><body>
+<h3 style="margin:4px 0">Nautilus Dog <small id=lnk class=bad>offline</small>
+ &nbsp; <small>Battery <b id=bat>--</b>% <span id=volt></span> <b id=low class=bad></b></small></h3>
+<div id=lock>Someone else is driving. <button class=g style="width:auto;padding:8px 14px" onclick="tx('take')">Take control</button></div>
+<div id=wrap>
+<div><div id=pad><div id=knob></div></div></div>
+<div>
+<div>Moving: <b id=dir>Stop</b></div>
+<div class="row btns"><button id=bFL data-c=FL>&#8598;</button><button id=bF data-c=F>&#9650;</button><button id=bFR data-c=FR>&#8599;</button></div>
+<div class="row btns"><button id=bL data-c=L>&#10226;</button><button id=bB data-c=B>&#9660;</button><button id=bR data-c=R>&#10227;</button></div>
+<div class="row btns"><button id=bBL data-c=BL>&#8601;</button><span></span><button id=bBR data-c=BR>&#8600;</button></div>
+<div class=row><button class=s id=stop onclick="halt()">&#9632; STOP</button></div>
+<div>Max speed <span id=spv>50</span>%<input type=range id=sp min=0 max=100 value=50 oninput="sp()"></div>
+<div class=row><button class=g id=g0 onclick="gt('trot')">Trot</button><button class=g id=g1 onclick="gt('walk')">Walk</button><button class=g id=love style="background:#a36" onclick="tx('emote love')">&#10084; Love</button></div>
+<p><a href="/cal">Calibration</a> <small id=msg></small></p>
+</div></div>
 <script>%JS%
-var cur='S';
-function d(x){cur=x;tx('drive '+x);mark()}
+var DN=['S','F','B','L','R','FL','FR','BL','BR','J'],DT={S:'Stop',F:'Forward',B:'Back',L:'Spin left',R:'Spin right',FL:'Forward-left',FR:'Forward-right',BL:'Back-left',BR:'Back-right',J:'Joystick'};
+var me=-1,drv=-1,hold=null,jx=0,jy=0,joyOn=false,pid=null;
+function mine(){return me>=0&&me==drv}
+function show(c){$('dir').textContent=DT[c]||c;document.querySelectorAll('.btns button').forEach(function(b){b.className=b.dataset.c==hold?'on':''})}
+function halt(){hold=null;joyOn=false;jx=jy=0;knob(0,0);if(mine()){tx('joy 0 0');tx('drive S')}show('S')}
 function sp(){$('spv').textContent=$('sp').value;tx('spd '+$('sp').value)}
 function gt(g){tx('gait '+g)}
-function mark(){}
-function onMsg(m){var p=m.split(' ');if(p[0]=='st'){$('bat').textContent=p[1];$('volt').textContent=p[2]+' V';
-$('low').textContent=p[3]=='1'?'LOW BATTERY':'';$('g0').className='g'+(p[5]=='0'?' on':'');$('g1').className='g'+(p[5]=='1'?' on':'');}}
-window.onblur=function(){tx('drive S')};
+// held button: resend every JOY_SEND_MS (100 ms); release, leave or cancel stops
+document.querySelectorAll('.btns button').forEach(function(b){
+ b.addEventListener('pointerdown',function(e){e.preventDefault();b.setPointerCapture(e.pointerId);hold=b.dataset.c;tx('drive '+hold);show(hold)});
+ ['pointerup','pointercancel','lostpointercapture'].forEach(function(ev){b.addEventListener(ev,function(){if(hold==b.dataset.c)halt()})});
+});
+var pad=$('pad');
+function knob(x,y){$('knob').style.transform='translate('+(x*130)+'%,'+(-y*130)+'%)'}
+function pmove(e){var r=pad.getBoundingClientRect(),R=r.width/2,x=(e.clientX-r.left-R)/R,y=-(e.clientY-r.top-R)/R,m=Math.hypot(x,y);
+ if(m>1){x/=m;y/=m}jx=x;jy=y;knob(x,y)}
+pad.addEventListener('pointerdown',function(e){e.preventDefault();pad.setPointerCapture(e.pointerId);pid=e.pointerId;joyOn=true;hold=null;pmove(e);tx('joy '+jx.toFixed(2)+' '+jy.toFixed(2))});
+pad.addEventListener('pointermove',function(e){if(joyOn&&e.pointerId==pid)pmove(e)});
+['pointerup','pointercancel','lostpointercapture'].forEach(function(ev){pad.addEventListener(ev,function(e){if(joyOn&&e.pointerId==pid)halt()})});
+setInterval(function(){if(joyOn)tx('joy '+jx.toFixed(2)+' '+jy.toFixed(2));else if(hold)tx('drive '+hold)},100);
+function onMsg(m){var p=m.split(' ');
+ if(p[0]=='id')me=+p[1];
+ else if(p[0]=='drv'){drv=+p[1];$('lock').style.display=mine()?'none':'block';if(!mine()){hold=null;joyOn=false;knob(0,0)}}
+ else if(p[0]=='msg')$('msg').textContent=p.slice(1).join(' ');
+ else if(p[0]=='st'){$('bat').textContent=p[1];$('volt').textContent=p[2]+' V';
+ $('low').textContent=p[3]=='1'?'LOW BATTERY':'';$('g0').className='g'+(p[5]=='0'?' on':'');$('g1').className='g'+(p[5]=='1'?' on':'');
+ if(!hold&&!joyOn&&DN[+p[4]]!=null)show(DN[+p[4]]);if(p[6]!=null){drv=+p[6];$('lock').style.display=mine()?'none':'block'}$('love').className='g'+(p[7]=='1'?' on':'')}}
+window.onblur=halt;document.addEventListener('visibilitychange',function(){if(document.hidden)halt()});
 conn();
 </script></body></html>)HTML";
 

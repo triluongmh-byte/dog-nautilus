@@ -11,8 +11,8 @@ ignored = json.load(open(latest))['ignoredChecks']
 shutil_root = Project(str(root / 'build/board/pub/design/main.kicad_pro')).root if (root / 'build/board/pub').is_dir() else root
 def ev(*names): return [{'path': 'engineering/' + n, 'sha256': sh('engineering/' + n)} for n in names]
 S = {
- 'power': ('pass', 'Rails, divider ratio (2.084 V at 8.4 V), D1 drop, C1 sizing (1000 uF 10 V on 5 V), reset-state reasoning for servo PWM, strapping pins and fan; routed trunk widths measured (0.6 mm where clearance allows). Limitation: shared +5V trunk is below the 4-servo stall current on this dummy board; wire the real servo supply (recorded).', ['power.md']),
- 'protection': ('pass', 'Back-feed diode D1, no reverse diode by design (0.45 V drop), charger-module protection assumed, ADC overvoltage margin, no hardware disable (firmware watchdog by contract).', ['protection.md']),
+ 'power': ('pass', 'Rails, divider ratio (2.084 V at 8.4 V), D1 drop, C1 sizing (1000 uF 10 V on 5 V), reset-state reasoning for servo PWM, strapping pins and fan; routed trunk widths measured (0.6 mm where clearance allows). Servo supply is wired to a splice at the buck (J3-J6 carry PWM only), so the board trunk carries <= 1.0 A against ~1.5 A for 0.6 mm / 1 oz; power budget table 2.80 A at 5 V, 2.65 A at 6.0 V pack (assumed figures).', ['power.md']),
+ 'protection': ('pass', 'Back-feed diode D1, no reverse diode by design (0.45 V drop), charger module not yet chosen (>= 5 A discharge required), harness PTC hold >= 3.5 A, ADC overvoltage margin, no hardware disable (firmware watchdog by contract).', ['protection.md']),
  'pinout': ('pass', 'All 16 U1 pads and 9 headers audited against the contract pin table and module card; kicadpy.verify netlist 0 differences, 0 hollow symbols.', ['pinout.md']),
  'thermal': ('pass', 'No regulator on the board; D1 dissipation 0.23 W; no thermal pad, pour or via claim.', ['thermal.md']),
  'assembly': ('pass', 'All parts hand-assembled; polarity, order and reference parts recorded; manual identities in parts.json with assumptions marked.', ['assembly.md']),

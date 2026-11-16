@@ -19,11 +19,24 @@ Các tệp bàn giao:
 - [Nguồn CAD](case/build.py), [manifest STEP/STL](case/out/parts.json). Vách trên cửa servo tăng lên 2,1 mm; trụ ngang thay bằng bệ có lỗ và trục rời. Bán kính bánh răng và lớp thanh chân đổi để tránh cấn nhau.
 - [Firmware/cách biên dịch](firmware/README.md), [đấu dây](firmware/WIRING.md), [sơ đồ KiCad](design/main.kicad_sch), [bảng dây module](engineering/harness.md).
 
-Firmware có SoftAP, QR OLED, mặt cười, % pin ước lượng, tới/lùi/rẽ/dừng, tốc độ, trot, canh pha từng chân và lưu hiệu chỉnh. Kiểm tra độc lập đã biên dịch bằng arduino-cli cho ESP32-C3, kiểm tra logic và JavaScript. PlatformIO chưa được chạy. Pha và tốc độ vẫn là ước lượng sau khi canh bằng tay; servo không có phản hồi góc.
+Firmware có SoftAP, QR OLED, mặt cười, % pin ước lượng, 8 hướng đi và dừng, tốc độ, trot, canh pha từng chân và lưu hiệu chỉnh. Kiểm tra độc lập đã biên dịch bằng arduino-cli cho ESP32-C3, kiểm tra logic và JavaScript. PlatformIO chưa được chạy. Pha và tốc độ vẫn là ước lượng sau khi canh bằng tay; servo không có phản hồi góc.
 
 Trạng thái kiểm tra:
 
-- Harness báo `teamReady: true`, `nativeBoardReady: true`; kiểm tra tích hợp cuối không còn finding trong danh sách đã xét. Native ERC/DRC/parity có 0 finding. [Báo cáo native](build/board-validation.json).
+- Bản sửa 2026-11-16 (chỉ board/tài liệu, copper giữ nguyên): native ERC/DRC/parity 0 finding (70 chân = 70 pad), manufacturing `prototypeReady: true` với hash mới, sidecar còn **1 cảnh báo** `power_entry_narrow` (đoạn +5V 0,3–0,4 mm, chỉ còn tải ≤1 A). [Báo cáo native](build/board-validation.json). Dòng tóm tắt "firmware not written yet" trong `.harness/verdict.json` do harness sinh, đã cũ: firmware đã có và đã biên dịch ở lượt trước.
+- **Nguồn servo đi dây riêng:** dây đỏ/nâu của servo nối thẳng vào điểm nối ở đầu ra mạch hạ áp (AWG24, ≤0,3 m). Chỉ dây cam cắm vào chân 1 của J3–J6. Ngân sách điện: xấu nhất 2,80 A ở 5 V, 2,65 A khi pin 6,0 V ([power.md](engineering/power.md), [bảng dây](engineering/harness.md)).
+- **Bắt đầu làm thật:** [BUY.md](BUY.md) là danh sách mua, [PRINT.md](PRINT.md) là thứ tự in và ráp.
+- Mạch hạ áp: Pololu S13V30F5, 22,9×22,9 mm. Khối này **không vừa khay in sẵn**, tạm dán băng xốp xuống sàn.
+- Mạch sạc là 2 module: CHG1a sạc USB-C có cân bằng cell, CHG1b là board bảo vệ HX-2S-JH20 10 A. Cầu chì PTC giữ khoảng 4 A. Đo áp ra của mạch sạc phải đúng 8,4 V thì mới lắp pin. Bằng chứng: [sources.md](engineering/sources.md), [DEVIATIONS](engineering/DEVIATIONS.md).
+- Lắp thật trên tấm đục lỗ với linh kiện chân cắm, cùng giá trị như board KiCad. Board KiCad chỉ để ghi sơ đồ, không đặt hàng.
+- **Lái như xe điều khiển từ xa:** con chó tự phát Wi-Fi, điện thoại vào Wi-Fi đó là trang lái tự bật lên. Nếu không tự bật, quét mã QR thứ hai trên OLED.
+  - Kéo cần gạt ảo để đi, buông tay là dừng.
+  - 8 nút hướng chạy kiểu giữ là đi, buông là dừng.
+  - Nút **❤ Love**: con chó đang đứng yên sẽ lắc thân trái-phải 6 lần (khoảng 3 giây), màn OLED hiện mắt trái tim.
+  - Mỗi lúc chỉ một điện thoại lái. Mất sóng 1 giây thì con chó tự dừng.
+  - Mẹo giữ kết nối Wi-Fi nằm trong [firmware/README.md](firmware/README.md).
+  - Đã biên dịch bằng arduino-cli, test logic và JavaScript đạt. Chưa nạp vào con chó, chưa chạy motor.
+- Vỏ **không dựng lại** được trên máy này vì thiếu CadQuery/`KICAD_CASE_PYTHON`. Báo cáo vỏ bên dưới là của lần dựng trước.
 - Khung, quét 72 tư thế, khớp, nắp và xuất in đã đạt trên tệp hiện tại: [tổng](case/reports/verification.json), [chuyển động](case/reports/moving-motion.json), [khớp](case/reports/joints.json), [xuất in](case/reports/print-check.json). Đây là kiểm tra CAD, chưa chứng minh chịu tải, ăn khớp thật hoặc đi bộ trên bàn.
 - `verify stale` không liệt kê nguồn mới hơn bản xuất. Tuy vậy [báo cáo manufacturing](build/board-validation.json) ở bản bàn giao ban đầu có 3 lỗi hash bằng chứng cũ. Pipeline `build.sh` tính lại các hash từ nguồn hiện tại và yêu cầu native/manufacturing đều đạt; kết quả sau dựng nằm trong báo cáo này. Còn cảnh báo đường nguồn hẹp; servo thật cấp nguồn bằng dây theo hướng dẫn. Không coi gói PCB là sẵn sàng đặt hàng.
 - PrintTeam thất bại cả lần đầu và lần thử lại: `ValueError: Print request needs verified plate and parts`. Chính bộ đọc của harness nhận đủ 47 chi tiết/5 plate, SHA-256 3MF `c332e63f751997e25e93579f50dcc6352bf9476614292510e67d6800657f9436`. Bộ lập kế hoạch trả plate 0 và danh sách chi tiết rỗng. Đội harness cần sửa bước điều phối; không có lệnh in nào được gửi.

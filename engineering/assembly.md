@@ -4,3 +4,5 @@ Method: hand soldering, iron + flux. Order: 0805 resistors/capacitors and D1 (SM
 Polarity: D1 cathode (bar) = pad 1 toward the right (USB) side; C1 + (square pad 1) toward J2; headers pin 1 square; U1 pin 1/pin 9 at the USB (+X) end.
 Footprint-orientation evidence: the local footprints are KiCad stock (copied to design/nautilus.pretty) plus the custom ESP32C3_SuperMini_2x8_P2.54; manual parts need no factory rotation comparison.
 Identity: parts.json lists real catalogue MPNs as reference parts (not live-checked). The part set contains one assumption: C1 8 x 11.5 mm.
+Plug height (DEVIATIONS.md #3): every plug on J1-J9 must stay <= 11.5 mm above the header plastic base (zone 14 mm above the board top). Use low-profile 2.54 mm housings (body <= 9 mm) with wires bent sideways at once, or solder the wires straight onto the pins, heat-shrink and bend them flat. Servo signal leads use 1-pin housings on J3-J6 pin 1; pins 2-3 stay bare.
+

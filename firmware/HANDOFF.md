@@ -12,7 +12,7 @@ No PlatformIO in cache -> see DEVIATIONS.md #1. Compile via arduino-cli with lib
 - src/battery.cpp/.h: percentFromVolts 6, update() 23 (EMA, debounced low latch with hysteresis).
 - src/settings.cpp/.h: NVS namespace "dog" (n/s/r/p/d per leg, pw). load 25, save 54.
 - src/oled.cpp/.h: U8g2 SSD1309/1306 I2C, address probe 25, QR pages (drawQr 43), smiley 61, update 79, low-batt screen.
-- src/web.cpp/.h + web_pages.h: HTTP :80 (/ and /cal), WebSocket :81 text protocol. handleCmd() 34 (hb, drive, spd, gait, nudge, spin, trim, sign, zero, rev, save). Telemetry `st bat volts low drive gait`.
+- src/web.cpp/.h + web_pages.h: HTTP :80 (/ and /cal), WebSocket :81 text protocol. handleCmd() (hb, take, joy, emote love, drive, spd, gait, nudge, spin, trim, sign, zero, rev, save; only the driving client may move the dog and feed the watchdog). Captive-portal DNSServer in Web::begin/loop. Telemetry `st bat volts low drive gait`.
 - src/nqr.c/.h: vendored QR lib (renamed header).
 - tools/firmware/test_gait.cpp (host asserts), check_pages.js (JS syntax), check.sh.
 - README.md (user docs), WIRING.md (pins), DEVIATIONS.md.

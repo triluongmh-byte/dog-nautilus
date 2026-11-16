@@ -1,18 +1,221 @@
 {
-  "schemaVersion": 1,
-  "note": "Dummy/ERC carrier (never ordered). All parts are hand-assembled (manual). MPNs are standard catalogue parts chosen as reference; none were checked against a live supplier listing in this session, so no LCSC codes are given. GIA DINH (ASSUMPTION) marks every unverified identity.",
+ "schemaVersion": 1,
+ "note": "Dummy/ERC carrier (never ordered). All parts are hand-assembled (manual). MPNs are standard catalogue parts chosen as reference; none were checked against a live supplier listing in this session, so no LCSC codes are given. GIA DINH (ASSUMPTION) marks every unverified identity.",
+ "parts": [
+  {
+   "refdes": [
+    "U1"
+   ],
+   "manufacturer": "Nologo (no-brand clone)",
+   "mpn": "ESP32-C3 SuperMini",
+   "value": "ESP32-C3 SuperMini",
+   "project_footprint": "ESP32C3_SuperMini_2x8_P2.54",
+   "seatHeightMm": 2.5,
+   "sourcing": "Web search (esp32.co.uk, randomnerdtutorials, mischianti, sudo.is) agrees: 16 pins on 2.54 mm, 13 GPIO + 5V/GND/3V3, on-board blue LED on GPIO8 (active low), BOOT button on GPIO9, strapping pins GPIO2/8/9, about 22 x 18 mm. Sources say pinouts vary by seller and the row spacing was not found; no datasheet dimension was read.",
+   "assumption": "GIA DINH: module 22.5 x 18 mm, pin rows 15.24 mm apart, pin order from the module card (left row IO5..IO21, right row 5V,GND,3V3,IO4..IO0). Soldered onto two 1x8 MALE 2.54 mm headers (Wurth 61300811121, plastic base 2.5 mm) so the module bottom sits 2.5 mm above the board top as sealed (z 9.1); NOT on female sockets (8.5 mm seat would raise the USB-C ~6 mm out of the front-wall slot)."
+  },
+  {
+   "refdes": [
+    "J1",
+    "J2",
+    "J8"
+   ],
+   "manufacturer": "Wurth Elektronik",
+   "mpn": "61300211121",
+   "value": "1x2 2.54 mm pin header",
+   "project_footprint": "PinHeader_1x02_P2.54mm_Vertical"
+  },
+  {
+   "refdes": [
+    "J3",
+    "J4",
+    "J5",
+    "J6"
+   ],
+   "manufacturer": "Wurth Elektronik",
+   "mpn": "61300311121",
+   "value": "1x3 2.54 mm pin header",
+   "project_footprint": "PinHeader_1x03_P2.54mm_Vertical"
+  },
+  {
+   "refdes": [
+    "J7"
+   ],
+   "manufacturer": "Wurth Elektronik",
+   "mpn": "61300411121",
+   "value": "1x4 2.54 mm pin header",
+   "project_footprint": "PinHeader_1x04_P2.54mm_Vertical"
+  },
+  {
+   "refdes": [
+    "J9"
+   ],
+   "manufacturer": "Wurth Elektronik",
+   "mpn": "61300611121",
+   "value": "1x6 2.54 mm pin header",
+   "project_footprint": "PinHeader_1x06_P2.54mm_Vertical"
+  },
+  {
+   "refdes": [
+    "R1",
+    "R2"
+   ],
+   "manufacturer": "Yageo",
+   "mpn": "RC0805FR-074K7L",
+   "value": "4.7k",
+   "project_footprint": "R_0805_2012Metric"
+  },
+  {
+   "refdes": [
+    "R3"
+   ],
+   "manufacturer": "Yageo",
+   "mpn": "RC0805FR-07100KL",
+   "value": "100k",
+   "project_footprint": "R_0805_2012Metric"
+  },
+  {
+   "refdes": [
+    "R4"
+   ],
+   "manufacturer": "Yageo",
+   "mpn": "RC0805FR-0733KL",
+   "value": "33k",
+   "project_footprint": "R_0805_2012Metric"
+  },
+  {
+   "refdes": [
+    "R5",
+    "R6",
+    "R7",
+    "R8"
+   ],
+   "manufacturer": "Yageo",
+   "mpn": "RC0805FR-0710KL",
+   "value": "10k",
+   "project_footprint": "R_0805_2012Metric"
+  },
+  {
+   "refdes": [
+    "C2",
+    "C3",
+    "C4"
+   ],
+   "manufacturer": "Samsung Electro-Mechanics",
+   "mpn": "CL21B104KBCNNNC",
+   "value": "100nF",
+   "project_footprint": "C_0805_2012Metric"
+  },
+  {
+   "refdes": [
+    "C1"
+   ],
+   "manufacturer": "Rubycon",
+   "mpn": "10PX1000MEFC8X11.5",
+   "value": "1000uF 10V",
+   "project_footprint": "CP_Radial_D8.0mm_P3.50mm",
+   "sourcing": "Seller listing (LCSC C88853) gives Rubycon 10PX1000MEFC8X11.5 as 1000 uF / 10 V / +-20 % / through-hole D8 x L11.5 mm; datasheet not opened. Replaces the earlier 10ZLH1000MEFC8X11.5: web search found ZLH 1000 uF/10 V only as 8x16 and 10x12.5 mm, no 8x11.5 ZLH listing.",
+   "assumption": "GIA DINH: lead pitch 3.5 mm and 105 C life are not read from the PX datasheet; the real part must be measured (D8 x 11.5, pitch 3.5) and rated >= 10 V. Max height 14 mm above the board top; if the real part is taller, lay it flat."
+  },
+  {
+   "refdes": [
+    "D1"
+   ],
+   "manufacturer": "Vishay",
+   "mpn": "SS14-E3/61T",
+   "value": "SS14 Schottky 40V 1A",
+   "project_footprint": "D_SMA",
+   "assumption": "GIA DINH: 1 A average is enough for the MCU branch only (<= 0.5 A); the servos never pass through D1."
+  }
+ ],
+ "offBoardModules": [
+  {
+   "id": "BUCK1",
+   "chosen": "Pololu S13V30F5 (5 V, 3 A step-up/step-down)",
+   "evidence": "Pololu product page/specs (search result): input 2.8-22 V, about 3 A continuous at 5 V, 3 % output accuracy, reverse-voltage protection to 20 V. Chosen because the 2S pack falls to 6.0 V and a plain buck needs headroom.",
+   "rejected": "MP1584-class module: seller test reports give ~2 A continuous (3 A only for seconds) and a stated 1.5 V input headroom, i.e. >= 6.5 V in for 5 V out, above the 6.0 V pack floor. Pololu D30V30F5 (5-45 V in, 3.4 A) needs its dropout graph read before it can be trusted at 6 V.",
+   "assumption": "Does NOT fit the printed buck_holder (tray 22 x 17 mm between lips). Do not glue buck_holder; foam-tape the S13V30F5 flat on the floor at x -54..-31, y -33..-10 (clear of the cell cradle at x >= -31.4). Case source must be re-run (BUCK y1 -16 -> -9.7) on a machine with CadQuery. Output at 6.0 V in / 2.8 A not confirmed.",
+   "size": "22.9 x 22.9 x 9.7 mm without headers/terminals (Pololu product page, fetched 2026-11-16); 3.5 g; continuous output 2-4 A depending on input voltage (graph not read at 6 V)"
+  },
+  {
+   "id": "CHG1",
+   "chosen": "Two modules: CHG1a USB-C 2S boost charger with BM balance (Sigmanortec-type \"2S-3S charging module with balancing, Type-C\") + CHG1b HX-2S-JH20 2S 10 A protection board (B+/BM/B-/P+/P-, 46.7 x 23 x 3.15 mm)",
+   "evidence": "Web search found no single listing combining USB-C input, 8.4 V balanced charging, B+/BM/B-/P+/P- pads and >= 3 A discharge. Found: USB-C 2S 8.4 V 2 A charger boards (robu.in/rytronics, no balance or discharge rating); 2S 3 A protection boards (3 A working, 5 A transient); HX-2S-JH20 10 A protection board with B+/BM/B-/P+/P- (no charger). 2026-11-16 search again: no single USB-C module with >= 5 A discharge; USB-C 2S chargers are charge-only 1-4 A (sigmanortec.ro, robu.in), 5 A protection boards take 8.4-9 V input, not USB.",
+   "requirement": "One board, stated continuous discharge >= 5 A (worst case load is 2.65 A at 6.0 V), 8.4 V balanced charge, USB-C. Fallback if none exists: HX-2S-JH20 class protection board plus a separate USB-C 2S charger (case charger_holder and USB opening would need rework).",
+   "assumption": "GIA DINH: CHG1a size and pinout unmeasured (must fit the 24 x 21 mm charger_holder and the USB opening, checked with coupon_mounts). Before fitting cells: power CHG1a from USB with no cells and measure its output: 8.4 V +-0.1 V (one listing reported 9.7 V on a similar board). Still unvalidated hardware: bench-check before the first charge, charge only under supervision.",
+   "wiring": "Cells -> CHG1b B+/BM/B-. CHG1a output +/- -> CHG1b P+/P- (charges through the protection board); CHG1a BM -> cell midpoint. CHG1b P+ -> PTC1 -> SW1. CHG1a USB-C sits in the charger_holder at the back-wall opening; CHG1b is taped on top of the two cells (6.5 mm under the lid)."
+  },
+  {
+   "id": "DISP1",
+   "chosen": "1.54 in 128x64 SSD1309 OLED, 4-pin I2C variant",
+   "evidence": "Waveshare 1.54 in OLED module (SSD1309, 128x64) defaults to 4-wire SPI with a 7-pin cable; I2C needs a resistor change on the back. Silicon Chip notes some large SSD1309 boards come I2C by default with 4.7 k pull-ups on board.",
+   "assumption": "GIA DINH: the real module's mode is unknown; check silkscreen/resistor positions. If it has its own 4.7 k pull-ups, they add in parallel with R1/R2 (2.35 k, still above the 3 mA I2C sink limit at 3.3 V)."
+  },
+  {
+   "id": "servo_FL/FR/RL/RR",
+   "chosen": "FEETECH FS90R class continuous-rotation micro servo",
+   "evidence": "FEETECH FS90R spec: stall 550 mA at 4.8 V, 650 mA at 6 V; Pololu lists ~800 mA at 6 V; generic SG90 360 listings give 300-360 mA measured.",
+   "assumption": "GIA DINH: the user's 8 servos are unmeasured; the power budget uses 0.60 A stall each."
+  }
+ ],
+ "perfboardBuild": {
+  "note": "The KiCad carrier is not ordered. The real build is hand-soldered on 2.54 mm perfboard cut to 22 x 52 mm with 4 x 2.2 mm holes at the KiCad mount positions, same nets and header order as design/main.kicad_sch. Through-hole substitutes (same values):",
   "parts": [
-    {"refdes": ["U1"], "manufacturer": "Nologo (no-brand clone)", "mpn": "ESP32-C3 SuperMini", "value": "ESP32-C3 SuperMini", "project_footprint": "ESP32C3_SuperMini_2x8_P2.54", "assumption": "GIA DINH: module 22.5 x 18 mm, pin rows 15.24 mm apart, pin order from the module card (left row IO5..IO21, right row 5V,GND,3V3,IO4..IO0). Soldered onto two 1x8 MALE 2.54 mm headers (Wurth 61300811121, plastic base 2.5 mm) so the module bottom sits 2.5 mm above the board top as sealed (z 9.1); NOT on female sockets (8.5 mm seat would raise the USB-C ~6 mm out of the front-wall slot)."},
-    {"refdes": ["J1", "J2", "J8"], "manufacturer": "Wurth Elektronik", "mpn": "61300211121", "value": "1x2 2.54 mm pin header", "project_footprint": "PinHeader_1x02_P2.54mm_Vertical"},
-    {"refdes": ["J3", "J4", "J5", "J6"], "manufacturer": "Wurth Elektronik", "mpn": "61300311121", "value": "1x3 2.54 mm pin header", "project_footprint": "PinHeader_1x03_P2.54mm_Vertical"},
-    {"refdes": ["J7"], "manufacturer": "Wurth Elektronik", "mpn": "61300411121", "value": "1x4 2.54 mm pin header", "project_footprint": "PinHeader_1x04_P2.54mm_Vertical"},
-    {"refdes": ["J9"], "manufacturer": "Wurth Elektronik", "mpn": "61300611121", "value": "1x6 2.54 mm pin header", "project_footprint": "PinHeader_1x06_P2.54mm_Vertical"},
-    {"refdes": ["R1", "R2"], "manufacturer": "Yageo", "mpn": "RC0805FR-074K7L", "value": "4.7k", "project_footprint": "R_0805_2012Metric"},
-    {"refdes": ["R3"], "manufacturer": "Yageo", "mpn": "RC0805FR-07100KL", "value": "100k", "project_footprint": "R_0805_2012Metric"},
-    {"refdes": ["R4"], "manufacturer": "Yageo", "mpn": "RC0805FR-0733KL", "value": "33k", "project_footprint": "R_0805_2012Metric"},
-    {"refdes": ["R5", "R6", "R7", "R8"], "manufacturer": "Yageo", "mpn": "RC0805FR-0710KL", "value": "10k", "project_footprint": "R_0805_2012Metric"},
-    {"refdes": ["C2", "C3", "C4"], "manufacturer": "Samsung Electro-Mechanics", "mpn": "CL21B104KBCNNNC", "value": "100nF", "project_footprint": "C_0805_2012Metric"},
-    {"refdes": ["C1"], "manufacturer": "Rubycon", "mpn": "10ZLH1000MEFC8X11.5", "value": "1000uF 10V", "project_footprint": "CP_Radial_D8.0mm_P3.50mm", "assumption": "GIA DINH: 8 mm x 11.5 mm radial, 10 V (>= 10 V required); the size must be confirmed on the real part. Max height 14 mm above the board top; if the real part is taller, lay it flat."},
-    {"refdes": ["D1"], "manufacturer": "Vishay", "mpn": "SS14-E3/61T", "value": "SS14 Schottky 40V 1A", "project_footprint": "D_SMA", "assumption": "GIA DINH: 1 A average is enough for the MCU branch only (<= 0.5 A); the servos never pass through D1."}
+   {
+    "refdes": [
+     "R1",
+     "R2"
+    ],
+    "value": "4.7k 1/4 W"
+   },
+   {
+    "refdes": [
+     "R3"
+    ],
+    "value": "100k 1/4 W"
+   },
+   {
+    "refdes": [
+     "R4"
+    ],
+    "value": "33k 1/4 W"
+   },
+   {
+    "refdes": [
+     "R5",
+     "R6",
+     "R7",
+     "R8"
+    ],
+    "value": "10k 1/4 W"
+   },
+   {
+    "refdes": [
+     "C2",
+     "C3",
+     "C4"
+    ],
+    "value": "100 nF ceramic, 2.54 or 5.08 mm leads"
+   },
+   {
+    "refdes": [
+     "D1"
+    ],
+    "value": "1N5817 (DO-41, 20 V 1 A Schottky, ~0.45 V at 1 A) or SS14 soldered on its tabs"
+   },
+   {
+    "refdes": [
+     "C1"
+    ],
+    "value": "1000 uF 10 V radial 8 x 11.5 mm"
+   },
+   {
+    "refdes": [
+     "J1-J9",
+     "U1 rows"
+    ],
+    "value": "2.54 mm male pin header strips"
+   }
   ]
+ }
 }

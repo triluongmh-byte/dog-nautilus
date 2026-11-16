@@ -13,6 +13,8 @@ uint32_t g_lastCmdMs = 0;
 int g_speedPct = 50;
 GaitType g_gaitType = GAIT_TROT;
 Drive g_drive = DRV_STOP;
+uint32_t g_loveUntilMs = 0;
+bool appLove() { return g_gait.wiggling() || (int32_t)(g_loveUntilMs - millis()) > 0; }
 
 void appApplyDrive() {
   if (Battery::lowLatched()) g_gait.setDrive(DRV_STOP, 0, g_gaitType);
@@ -60,7 +62,10 @@ void loop() {
     g_drive = DRV_STOP;
     g_gait.cancelNudge();
   }
-  if (Battery::lowLatched()) g_gait.cancelNudge();
+  if (Battery::lowLatched()) { g_gait.cancelNudge(); g_gait.cancelWiggle(); }
+  static bool wasLove = false;
+  if (g_gait.wiggling()) g_loveUntilMs = now + LOVE_FACE_HOLD_MS;
+  if (appLove() != wasLove) { wasLove = !wasLove; Web::pushState(true); }
   appApplyDrive();
 
   if (now - lastTick >= GAIT_TICK_MS) {
@@ -73,5 +78,5 @@ void loop() {
   }
 
   Web::pushState(false);
-  Oled::update(WiFi.softAPgetStationNum(), Battery::percent(), Battery::volts(), Battery::lowLatched());
+  Oled::update(WiFi.softAPgetStationNum(), Battery::percent(), Battery::volts(), Battery::lowLatched(), appLove());
 }

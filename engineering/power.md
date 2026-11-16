@@ -23,6 +23,32 @@ Vsense = VBAT_SW x 33k/(100k+33k): 8.4 V -> 2.084 V, 7.4 V -> 1.836 V, 6.0 V -> 
 * The fan (J8) is always on whenever +5V exists: by contract, no switching device exists on the carrier, so there is no switch with a reset state.
 * USB flashing while the robot is on: the module 5V pin is raw VBUS on clones. D1 blocks +5V -> USB direction for the servos' rail; the opposite direction (USB VBUS -> +5V_MCU) cannot reach +5V because D1 is reverse biased. Writing on the silkscreen is not possible on this dummy; recorded here and in bringup.md.
 
+## Servo supply path (decided 2026-11-16)
+Servo power does NOT pass through the carrier. BUCK1 OUT+/OUT- go to one +5V and one GND splice point (soldered and heat-shrunk, or a screw/lever terminal block) right at the buck. From that point:
+* each servo red (+5V) and brown (GND) lead, extended with AWG24, <= 0.3 m;
+* the carrier feed to J1.1/J1.2 (AWG24).
+Only the orange signal lead of each servo goes to J3-J6 pin 1, in a 1-pin 2.54 mm female housing. J3-J6 pins 2 and 3 stay empty (they are still +5V/GND on the copper; nothing is plugged onto them). GND is common at the splice point, so the PWM reference is shared.
+AWG24 0.084 Ohm/m: 0.3 m out and back at 0.6 A = 0.03 V; the buck-to-splice stub carries the full 2.4 A over a few cm (< 0.02 V).
+Result: the board trunk J1 -> D1/C1/J8/J9 carries only fan + MCU + expansion (<= 1.0 A), under the ~1.5 A that 0.6 mm / 1 oz takes at 10 C rise.
+C1 (1000 uF) now sits one J1 wire (~0.2 m) away from the servo splice; servo current steps are served by the buck directly. Brown-out at the MCU is a bench item (bringup.md step 6).
+
+## Power budget (assumed figures; only a bench measurement settles them)
+| Load (5 V rail) | Current | Basis |
+|---|---|---|
+| 4 servos at stall | 4 x 0.60 = 2.40 A | FEETECH FS90R spec 550 mA @ 4.8 V, 650 mA @ 6 V (sources.md) |
+| Fan 30x30 5 V | 0.10 A | GIA DINH, fan not sourced |
+| ESP32-C3 SuperMini incl. Wi-Fi AP peak + OLED through its 3.3 V LDO | 0.30 A | GIA DINH |
+| **Total** | **2.80 A = 14.0 W** | BUCK1 rating 3 A (Pololu S13V30F5) |
+
+Battery side, efficiency assumed 0.88: 14.0 / 0.88 = 15.9 W.
+| Pack voltage | Pack current |
+|---|---|
+| 6.0 V (empty) | 2.65 A |
+| 7.4 V (nominal) | 2.15 A |
+| 8.4 V (full) | 1.89 A |
+Firmware low-battery stop is 6.6 V (2.41 A there). CHG1 must state >= 5 A continuous discharge (2.65 A worst case plus margin).
+Worse case: at Pololu's 0.8 A stall figure, 4 x 0.8 + 0.4 = 3.6 A, above the 3 A buck. This is a fault state (legs jammed): the buck current-limits and the firmware stops all servos 1 s after the last command. Normal walking is ~4 x 0.15-0.25 A.
+Expansion header J9: <= 0.5 A in normal running (board trunk total <= 1.0 A); not guaranteed while all four servos stall.
+
 ## Copper (measured on the routed board, tools/board/widen.py)
-+5V supply run J1 -> D1/C1/J3..J6/J8/J9 is routed at 0.6 mm wherever the clearance allowed (18 segments), short stubs at pads at 0.3-0.4 mm. 0.6 mm / 1 oz carries about 1.5 A at 10 C rise. Four servos at stall (4 x 0.6 A = 2.4 A) plus fan 0.1 A exceed that on the shared trunk - a LIMITATION of this 22 x 52 mm dummy board. The contract says the carrier is a hand-wired build representation: the real servo power return must go with wire (>= AWG24 from the buck to J3-J6) or the board must be 2 oz with a pour. Servos stall only when the leg jams; the firmware has a watchdog (firmware team).
-GND is routed at 0.3-0.5 mm tracks (no pour: a B.Cu pour was not added because the dummy board has no EMC requirement); the same current limit applies.
++5V supply run J1 -> D1/C1/J3..J6/J8/J9 is routed at 0.6 mm wherever the clearance allowed (18 segments), short stubs at pads at 0.3-0.4 mm (publisher warning `power_entry_narrow`, kept: those stubs carry <= 1.0 A with the wired servo supply). 0.6 mm / 1 oz carries about 1.5 A at 10 C rise. GND is routed at 0.3-0.5 mm tracks (no pour: the dummy board has no EMC requirement). Copper is unchanged in this revision.
