@@ -1,70 +1,223 @@
-# Robot Chó Nautilus V0
+# Nautilus Dog V0
 
-![Robot chó Nautilus — tổng thể CAD](docs/images/dog-isometric.png)
+A phone-controlled, four-legged robot prototype with **one continuous-rotation micro servo per leg**. Each servo drives a pair of noncircular nautilus gears and a Jansen linkage to produce a walking foot path.
 
-| Nhìn bên hông | Tách nắp để quan sát |
-|---|---|
-| ![Bánh răng và chân Jansen](docs/images/dog-side.png) | ![Khung và các giá linh kiện bên trong](docs/images/dog-open.png) |
+![Nautilus Dog — assembled CAD model](docs/images/dog-isometric.png)
 
-Ảnh kết xuất từ đúng tệp CAD của dự án, chưa phải robot đã in/lắp. Tạo lại bằng `tools/render_readme.py` sau khi dựng CAD.
+| Side view | Lid removed |
+| --- | --- |
+| ![Nautilus gears and Jansen legs](docs/images/dog-side.png) | ![Frame and internal component holders](docs/images/dog-open.png) |
 
-Bộ thiết kế ngày 2026-11-12: robot bốn chân, dùng 4 trong số 8 servo quay liên tục người dùng có. Mỗi servo kéo cặp bánh răng nautilus và chân Jansen. Điện lắp dây tay, ESP32-C3 SuperMini điều khiển qua điện thoại. KiCad là bản ghi sơ đồ/ERC, không dùng để đặt hàng.
+These images are renders of the project CAD, not photographs of a printed robot.
 
-Khung+nắp giữ 126 × 75 × 31 mm; trụ mở rộng nhô thêm 6 mm. Bao quỹ đạo chân CAD khoảng 152,1 × 144,6 × 69,6 mm, gồm chân vươn trước/sau trong cả chu kỳ. Bản nháp chưa được coi là đã in/thử. [Đề bài](prompts/original.md), [tham chiếu](prompts/assets/REFERENCES.md), [thay đổi và lý do](case/DEVIATIONS.md).
+**Status: design and software prototype.** CAD checks and firmware builds have been reported, but no physical print, assembly, powered test, or successful walking test has been confirmed. The latest electrical component choices still need mechanical fit checks.
 
-Các tệp bàn giao:
+[Shopping list](#shopping-list) · [Assembly workflow](#assembly-workflow) · [Build from source](#build-from-source) · [Known limitations](#known-limitations-and-manual-checks)
 
-- [Hướng dẫn lắp và bản vẽ](case/README.md), [vít/tán và trục](case/hardware.json), [overview](case/overview.html).
-- [3MF đủ bộ](case/print/production.3mf): 47 chi tiết trên 5 plate. [3MF TEST ONLY](case/print/test-only.3mf): 5 mẫu riêng gồm ổ servo, gá module/cửa mở, cặp bánh răng, khớp chân và nắp. [Báo cáo plate](case/print/production-check.json).
-- [Nguồn CAD](case/build.py), [manifest STEP/STL](case/out/parts.json). Vách trên cửa servo tăng lên 2,1 mm; trụ ngang thay bằng bệ có lỗ và trục rời. Bán kính bánh răng và lớp thanh chân đổi để tránh cấn nhau.
-- [Firmware/cách biên dịch](firmware/README.md), [đấu dây](firmware/WIRING.md), [sơ đồ KiCad](design/main.kicad_sch), [bảng dây module](engineering/harness.md).
+## How it works
 
-Firmware có SoftAP, QR OLED, mặt cười, % pin ước lượng, 8 hướng đi và dừng, tốc độ, trot, canh pha từng chân và lưu hiệu chỉnh. Kiểm tra độc lập đã biên dịch bằng arduino-cli cho ESP32-C3, kiểm tra logic và JavaScript. PlatformIO chưa được chạy. Pha và tốc độ vẫn là ước lượng sau khi canh bằng tay; servo không có phản hồi góc.
+Each leg follows this chain:
 
-Trạng thái kiểm tra:
-
-- Bản sửa 2026-11-16 (chỉ board/tài liệu, copper giữ nguyên): native ERC/DRC/parity 0 finding (70 chân = 70 pad), manufacturing `prototypeReady: true` với hash mới, sidecar còn **1 cảnh báo** `power_entry_narrow` (đoạn +5V 0,3–0,4 mm, chỉ còn tải ≤1 A). [Báo cáo native](build/board-validation.json). Dòng tóm tắt "firmware not written yet" trong `.harness/verdict.json` do harness sinh, đã cũ: firmware đã có và đã biên dịch ở lượt trước.
-- **Nguồn servo đi dây riêng:** dây đỏ/nâu của servo nối thẳng vào điểm nối ở đầu ra mạch hạ áp (AWG24, ≤0,3 m). Chỉ dây cam cắm vào chân 1 của J3–J6. Ngân sách điện: xấu nhất 2,80 A ở 5 V, 2,65 A khi pin 6,0 V ([power.md](engineering/power.md), [bảng dây](engineering/harness.md)).
-- **Bắt đầu làm thật:** [BUY.md](BUY.md) là danh sách mua, [PRINT.md](PRINT.md) là thứ tự in và ráp.
-- Mạch hạ áp: Pololu S13V30F5, 22,9×22,9 mm. Khối này **không vừa khay in sẵn**, tạm dán băng xốp xuống sàn.
-- Mạch sạc là 2 module: CHG1a sạc USB-C có cân bằng cell, CHG1b là board bảo vệ HX-2S-JH20 10 A. Cầu chì PTC giữ khoảng 4 A. Đo áp ra của mạch sạc phải đúng 8,4 V thì mới lắp pin. Bằng chứng: [sources.md](engineering/sources.md), [DEVIATIONS](engineering/DEVIATIONS.md).
-- Lắp thật trên tấm đục lỗ với linh kiện chân cắm, cùng giá trị như board KiCad. Board KiCad chỉ để ghi sơ đồ, không đặt hàng.
-- **Lái như xe điều khiển từ xa:** con chó tự phát Wi-Fi, điện thoại vào Wi-Fi đó là trang lái tự bật lên. Nếu không tự bật, quét mã QR thứ hai trên OLED.
-  - Kéo cần gạt ảo để đi, buông tay là dừng.
-  - 8 nút hướng chạy kiểu giữ là đi, buông là dừng.
-  - Nút **❤ Love**: con chó đang đứng yên sẽ lắc thân trái-phải 6 lần (khoảng 3 giây), màn OLED hiện mắt trái tim.
-  - Mỗi lúc chỉ một điện thoại lái. Mất sóng 1 giây thì con chó tự dừng.
-  - Mẹo giữ kết nối Wi-Fi nằm trong [firmware/README.md](firmware/README.md).
-  - Đã biên dịch bằng arduino-cli, test logic và JavaScript đạt. Chưa nạp vào con chó, chưa chạy motor.
-- Vỏ **không dựng lại** được trên máy này vì thiếu CadQuery/`KICAD_CASE_PYTHON`. Báo cáo vỏ bên dưới là của lần dựng trước.
-- Khung, quét 72 tư thế, khớp, nắp và xuất in đã đạt trên tệp hiện tại: [tổng](case/reports/verification.json), [chuyển động](case/reports/moving-motion.json), [khớp](case/reports/joints.json), [xuất in](case/reports/print-check.json). Đây là kiểm tra CAD, chưa chứng minh chịu tải, ăn khớp thật hoặc đi bộ trên bàn.
-- `verify stale` không liệt kê nguồn mới hơn bản xuất. Tuy vậy [báo cáo manufacturing](build/board-validation.json) ở bản bàn giao ban đầu có 3 lỗi hash bằng chứng cũ. Pipeline `build.sh` tính lại các hash từ nguồn hiện tại và yêu cầu native/manufacturing đều đạt; kết quả sau dựng nằm trong báo cáo này. Còn cảnh báo đường nguồn hẹp; servo thật cấp nguồn bằng dây theo hướng dẫn. Không coi gói PCB là sẵn sàng đặt hàng.
-- PrintTeam thất bại cả lần đầu và lần thử lại: `ValueError: Print request needs verified plate and parts`. Chính bộ đọc của harness nhận đủ 47 chi tiết/5 plate, SHA-256 3MF `c332e63f751997e25e93579f50dcc6352bf9476614292510e67d6800657f9436`. Bộ lập kế hoạch trả plate 0 và danh sách chi tiết rỗng. Đội harness cần sửa bước điều phối; không có lệnh in nào được gửi.
-- Overview đã tạo từ 8 bước lắp. Headless Chrome không có WebGL nên chỉ chip bước/thẻ vít được kiểm tra hiển thị. Công cụ UI trả `cgWindowNotFound` cho Harness, Chrome và Bambu Studio: chưa xác nhận trực tiếp điều khiển 3D hoặc mở 3MF bằng GUI. Pipeline `build.sh` nối lại trường `overview` trong manifest. Hiện chưa có mesh tham chiếu cho điện tử/vít mua sẵn; đội case còn cần hoàn thiện phần hiển thị này. Liên kết overview ở trên mở tệp đã tạo.
-
-Các lưu ý dưới đây tổng hợp từ `.pilot/tester-notes/` của run thiết kế r001. Run r002 chỉ thử lại PrintTeam; cả hai không có `lead-document-findings.json`.
-
-- **Chốt Q chỉ dán vào rocker, phải quay trong lỗ khung.** D8 và bước lắp số 4 ghi đúng; một mô tả fit trong `case/interfaces.json` còn ghi nhầm dán vào khung. Đội case cần sửa câu này. Dùng cả mẫu ổ servo và mẫu khớp khi kiểm lỗ/trục.
-- Kích thước module/horn/pin/quạt chưa đo. Khay dành cho cell dài 65 mm. Boss góc khung có thể có gờ nhô khoảng 0,36 mm cần kiểm và giũa nếu có. Kiểm đường dây dưới OLED; tuyến “over the cells” có thể vướng màn hình.
-- Đầu dây dưới OLED cần dạng thấp hoặc hàn trực tiếp/bẻ ngang, giới hạn đã chọn 11,5 mm trên đế header. ESP32 kê 2,5 mm, nhưng metadata enclosure vẫn suy đoán socket 8,5 mm. Đội điện cần đồng bộ metadata và bảng dây.
-- Vít servo/horn là vít nhà máy chưa đo. Vít M2 thanh chân có chiều dài trong `hardware.json`; vít tự ren giá carrier khoảng 4 mm cần kiểm chiều sâu. Mối keo và khe hở trục chưa thử vật lý.
-- QR URL có thể ngừng hiện ngay khi điện thoại nối Wi-Fi; dùng địa chỉ trong hướng dẫn nếu cần. Nút hiệu chỉnh “Spin 5 s” có giới hạn riêng 5 giây, chưa chịu watchdog heartbeat 1 giây như chế độ đi. Font dấu %, dòng pin thấp và độ chính xác pha sau chạy rất lâu còn ghi chú cho đội firmware.
-- Profile in là **GIẢ ĐỊNH** Bambu A1, nozzle 0,4 mm, PETG, lớp 0,20 mm. Chưa biết máy/vật liệu thật. Thời gian là ước lượng slicer; số gram bằng 0 do profile thiếu density.
-
-## Dựng lại từ mã nguồn
-
-Repo chứa mã nguồn, đầu vào CAD/KiCad, hợp đồng kích thước, tài liệu và ảnh README đã chọn. STEP/STL/3MF, báo cáo, overview HTML và firmware binary được sinh lại, không lưu trong Git. `PILOT_CONTRACT.json` là bản sao nguyên vẹn đầu vào đã chốt; các hash của đầu ra được tính lại trong mỗi lần dựng.
-
-Cần toolchain Harness KiCad (`kicadpy`, `KICAD_HARNESS_PYTHON`, `KICAD_CASE_PYTHON`), KiCad 10, CadQuery/NumPy/Matplotlib/VTK, Node.js, C++ compiler, rsync/zsh và Bambu Studio 2.7 tại đường dẫn macOS mặc định. Firmware cần arduino-cli, ESP32 core 2.0.14 và các thư viện U8g2/WebSockets đã cài sẵn. QR library đã nằm trong nguồn. Script báo rõ dependency thiếu và không tự cài/tải gì.
-
-Trong phiên Harness, hai biến Python đã được cấu hình. Với bộ cache Arduino của Harness trên máy này:
-
-```sh
-export ARDUINO_DIRECTORIES_DATA="$HOME/.cache/autonomous-circuit/firmware/arduino"
-export ARDUINO_DIRECTORIES_USER="$HOME/.cache/autonomous-circuit/firmware/sketchbook"
-./build.sh
+```text
+Continuous-rotation servo
+        ↓
+Nautilus gear pair — one input revolution per output revolution,
+                    with a varying speed ratio during the cycle
+        ↓
+Crank → Jansen linkage → foot path with a near-flat stance section
 ```
 
-Có thể chọn `./build.sh board`, `./build.sh case` hoặc `./build.sh firmware`. Thứ tự đầy đủ: xuất native board → STEP board → CAD → plate/3MF → kiểm tra cơ khí → bản vẽ/overview/ảnh → firmware. `case` tự dựng đầu vào board nếu chưa có. Board dùng lại copper đã kiểm tra, không tự route lại. Manufacturing review và hash bằng chứng được sinh từ nguồn hiện tại bằng `tools/board/make_manufacturing.py`. Manifest overview/printProject cũng được nối lại trong build. Kết quả dựng nằm trong `build/release-proof.json` và các đường dẫn đầu ra được liên kết ở trên; liên kết đầu ra chỉ có file sau khi dựng.
+The front legs reach forward and the rear legs reach backward, placing the feet near the four corners of the body. The linkages provide the foot motion mechanically; this is a single-actuator-per-leg mechanism.
 
-Chưa nạp firmware, chạy motor, in hoặc đặt hàng. [Kho chi tiết đã in](case/PRINTED-INVENTORY.md) chưa có xác nhận in thật. Fit, sức bền, pin/nguồn, nhiệt và bước đi thực tế vẫn phải kiểm tra trên phần cứng sau này.
+Continuous-rotation servos control speed and direction, not absolute angle. Leg phase is calibrated by hand and estimated in firmware. There is no encoder feedback or active balance control.
+
+| Item | Current design |
+| --- | --- |
+| Frame + lid | 126 × 75 × 31 mm |
+| Expansion posts | Extend 6 mm above the lid |
+| Swept CAD envelope | Approximately 152.1 × 144.6 × 69.6 mm, including moving legs |
+| Actuators | 4 SG90/FS90R-class **continuous-rotation** micro servos |
+| Controller | ESP32-C3 SuperMini |
+| Display | 1.54-inch, 128 × 64 OLED, I2C variant |
+| Battery / motor supply | 2S 18650 pack with charging/protection modules; regulated 5 V |
+| Assembly | Hand-wired electronics on perfboard; printed structure and M2 linkage joints |
+
+See the [original brief](prompts/original.md), [reference assets](prompts/assets/REFERENCES.md), and [mechanical changes from the draft](case/DEVIATIONS.md).
+
+## Phone control
+
+The firmware creates a local Wi-Fi access point and serves the controller at **http://192.168.4.1**. A cloud service or dedicated phone app is not required.
+
+- On-screen joystick and eight direction buttons: forward/backward, pivots, and forward/backward arcs. Release the joystick or a held direction button to stop.
+- Adjustable speed and trot/walk gait selection.
+- One driving phone at a time, with a take-control action.
+- OLED Wi-Fi information/QR codes, facial expressions, and an estimated battery percentage.
+- Captive-portal support to help phones open the controller. If it does not appear, open the address above manually.
+- A **Love** command: heart eyes and, from standstill, a programmed sequence of six left/right sways using short alternating pivots. The physical result is untested.
+- A drive-command timeout and low-battery stop. Calibration actions have separate behavior; keep the feet clear during calibration.
+
+The diagonal controls describe curved paths, not sideways walking. Calibration at **http://192.168.4.1/cal** sets neutral trim, direction, seconds per revolution, and phase zero, then saves them to NVS. Recalibrate if legs move while powered off or phase drifts.
+
+Details: [firmware guide](firmware/README.md), [wiring](firmware/WIRING.md), and [configuration constants](firmware/include/config.h).
+
+## Shopping list
+
+Quantities below are for **one robot**, before optional spares. They follow [parts.json](parts.json), [the hardware definitions](case/hardware.json), and [the wiring plan](engineering/harness.md). Module dimensions and supplied servo hardware still need measurement.
+
+The original builder already owns **8 continuous-rotation servos**: use 4 and keep 4 as spares. New builders need 4. Buy a few spare small fasteners if ordering individual sizes.
+
+### Electronics and power
+
+| Item | Quantity | What to buy / check |
+| --- | --- | --- |
+| Continuous-rotation micro servo | 4 | SG90/FS90R-class size, explicitly sold as continuous rotation. A standard 180° SG90 is unsuitable. [FS90R reference](https://www.pololu.com/product/2820); verify the actual body, horn, spline, and mounting holes with the test coupon. |
+| ESP32-C3 SuperMini | 1 | An extra board is optional. Match the actual pin labels and dimensions to [pinout.md](engineering/pinout.md); ESP32-C3 boards are not all interchangeable. |
+| 1.54-inch OLED | 1 | 128 × 64, SSD1309-class, **4-pin I2C configuration**. Check module size, hole pattern, pin order, voltage, and controller selection. Some boards ship in SPI mode. |
+| 5 V buck-boost regulator | 1 | Current reference: [Pololu S13V30F5](https://www.pololu.com/product/4082). Approximately 22.9 × 22.9 mm; **does not fit the existing 22 × 17 mm holder**. Output capability depends on input voltage and temperature; verify it under the real load. |
+| USB-C 2S Li-ion charger, CHG1a | 1 | 8.4 V charge target, with documented cell balancing and the required midpoint connection. **Exact module and fit are not validated**; verify its documentation and dimensions before purchasing. A 1S charger is unsuitable. |
+| 2S protection board, CHG1b | 1 | Current reference: HX-2S-JH20-class board with B+/BM/B−/P+/P− connections. Confirm the actual board's continuous-current rating, pinout, and compatibility with the charger; the current design calls for at least 5 A continuous discharge. |
+| Matched 18650 Li-ion cells | 2 | Same model/batch, 65 mm long, with a documented continuous-discharge rating of at least 5 A per cell. The cradle assumes cells without individual protection PCBs; **external 2S protection is required**. Longer protected cells may not fit. |
+| Resettable fuse / PTC | 1 | Current wiring plan calls for a roughly 4 A hold-current class part; check temperature derating and the final power design. |
+| Power switch | 1 | Nominal 7 mm mounting hole and at least 3 A DC rating; verify the actual switch and contact arrangement. |
+| Fan | 1 | 30 × 30 × 10 mm, 5 V, two wires; four mounting holes on a 23 mm square. |
+| Perfboard | 1 | 2.54 mm pitch, cut to approximately 22 × 52 mm; match the four mounting holes and the wiring diagram. |
+| USB-C data cable | 1 | For firmware upload; a charge-only cable is insufficient. |
+
+**The charger/protection combination is still a prototype selection, not a validated battery assembly.** Confirm the exact modules and charging/protection behavior before connecting cells. For battery tabs, use a suitable spot-welding service rather than soldering directly to cells.
+
+The KiCad carrier is the schematic/layout reference. The intended physical build is hand-wired; do not order a PCB as a substitute for the separate servo power wiring.
+
+### Small electrical parts and wiring
+
+| Item | Quantity | Purpose / specification |
+| --- | --- | --- |
+| 4.7 kΩ resistor | 2 | I2C pull-ups; through-hole 1/4 W parts for perfboard |
+| 100 kΩ resistor | 1 | Battery divider |
+| 33 kΩ resistor | 1 | Battery divider |
+| 10 kΩ resistor | 4 | Servo signal pull-downs |
+| 100 nF ceramic capacitor | 3 | Decoupling/filtering |
+| 1000 µF electrolytic capacitor | 1 | At least 10 V; nominal body 8 × 11.5 mm. Current reference: Rubycon 10PX1000MEFC8X11.5; verify size and lead pitch. |
+| 100–220 µF electrolytic capacitor | 1 optional | At least 10 V; reserve for MCU supply troubleshooting described in [bring-up](engineering/bringup.md). |
+| Schottky diode | 1 | 1N5817 through-hole substitute or SS14 as documented in [parts.json](parts.json) |
+| 2.54 mm male header, 40-pin strip | 2 | Cut for the module/header connections |
+| Single-pin female crimp housings + contacts | 10 | Four servo signal connections plus spares |
+| Low-profile 2-, 4-, and 6-pin female housings + contacts | 2 of each | Power/fan, OLED, and expansion connections; check clearance below the OLED |
+| AWG24 stranded wire | About 2 m each of red, black, and orange | Power, ground, and signals; follow the branch lengths in the wiring plan |
+| Heat-shrink tubing | 1 assortment | Insulate joints and wire splices |
+| Nickel strip / prepared cell tabs | About 20 cm, as needed | Have the battery connections prepared with suitable equipment |
+| Cable ties | A small pack | Battery retention and strain relief |
+
+**Servo power wiring:** servo red/brown leads go to the +5 V/GND splice at the regulator output. Only the signal lead goes to **pin 1 of J3–J6**; leave pins 2–3 unused. Keep a common ground. Follow [the full wiring table](engineering/harness.md), not wire colors alone.
+
+### Mechanical parts and consumables
+
+| Item | Quantity | Used for |
+| --- | --- | --- |
+| PETG filament, 1.75 mm | 1 spool | Current assumed print profile; a 1 kg spool is a purchase unit, not an estimate of material used |
+| M2 × 18 mm screw | 4 | Leg joint C |
+| M2 × 14 mm screw | 12 | Leg joints D, E, and F |
+| M2 × 8 mm screw | 4 | Leg joint G |
+| M2 × 10 mm screw | 4 | OLED mounting |
+| M2 hex nut | 28 | 20 for the legs + 8 for the OLED, including its nut spacers |
+| M2 self-tapping screw | 4 | Perfboard/carrier holder; current shopping reference is M2 × 5 mm. Check pilot depth before fitting; original assembly notes also mention approximately 4 mm. |
+| M3 × 10 mm self-tapping screw, pan head | 4 | Lid |
+| M3 × 4 mm heat-set insert, approximately 4.6 mm OD | 8 | Expansion deck; confirm fit with the lid coupon |
+| M3 × 16 mm screw | 4 | Fan |
+| M3 hex nut | 4 | Fan |
+| Supplied servo/horn screws and horns | 1 set per servo | Reuse the hardware supplied with the servos; dimensions are unmeasured |
+| CA/superglue | 1 small bottle | Holders and the specified fixed/locked interfaces; keep it out of rotating bores |
+| Foam double-sided tape | 1 roll | Electronic module mounting; final placement still needs checking |
+
+Printed pins, gears, links, holders, frame, and lid come from the CAD; they are not additional purchased shafts or bearings. The original layout contains **47 production pieces** plus **5 separate test coupons**. The newer regulator installation omits the old buck holder; the CAD/plate set has not yet been reconciled with that change.
+
+Useful tools: a 3D printer, soldering iron and solder/flux, multimeter, calipers, wire stripper, crimping tool, small screwdrivers/hex keys, heat-set insert tool, and a current-limited bench supply for bring-up.
+
+## Assembly workflow
+
+1. **Print the test coupons first.** Check the servo seat, module openings, gear mesh, linkage joint, and lid against real purchased parts. Resolve fit problems before printing the full set.
+2. **Print the production parts** using the actual printer/material profile. The existing profile assumes a Bambu A1, 0.4 mm nozzle, PETG, and 0.20 mm layers; this is not a confirmed profile for every printer.
+3. **Assemble the mechanism** using [the case guide](case/README.md) and [hardware definitions](case/hardware.json). Check free rotation through a full cycle.
+4. **Fit the electronics and wire the robot** using [the harness table](engineering/harness.md). Check module clearances with the lid in place.
+5. **Follow the staged bring-up procedure** in [bringup.md](engineering/bringup.md), starting without the battery or servos.
+6. **Upload and calibrate the firmware** using [the firmware guide](firmware/README.md). Lift the feet clear for calibration, then perform a controlled first walking test.
+
+[PRINT.md](PRINT.md) contains the existing print/assembly checklist, and [BUY.md](BUY.md) contains the earlier shopping checklist. Some supporting documents and the original brief are in Vietnamese; the consolidated shopping list above is in English.
+
+## Known limitations and manual checks
+
+- **Latest power modules need a mechanical update.** The Pololu regulator does not fit the original buck holder. The documented temporary approach is foam-tape mounting, but final placement, electrical isolation, and lid clearance need checking. The added protection board's proposed location above the cells has not been validated in CAD.
+- **Confirm every bought-part envelope.** Servo bodies/horns, module sizes, fan, cell tabs, and factory screws have not been measured. Use the test coupons. The cradle assumes 65 mm cells.
+- **Keep the Q pivot free.** Insert the Q pin from inside the body and glue it into the rocker only; it must rotate in the frame bore. Check both the servo-seat and leg-joint coupons for the pin interfaces. See [deviation D8](case/DEVIATIONS.md#d8-q-pin-turns-with-the-rocker-inserted-from-inside-the-box).
+- **Check connector and screw height.** Wires under the OLED must leave sideways; the selected maximum is 11.5 mm above the header base. The ESP32 seating target is 2.5 mm, not a tall female socket. Verify carrier screw penetration and real nut/insert fits.
+- **Inspect the printed frame and cable routes.** Small corner-boss protrusions may need deburring. Keep wiring out of moving links and away from the OLED underside; do not assume the route over the cells is clear.
+- **Calibrate and inspect the display on hardware.** Phase tracking is open-loop. The Wi-Fi/URL QR sequence, battery text, and calibration behavior still need a real device check. Calibration spin has its own five-second limit; it is not equivalent to the normal driving timeout.
+- **Generated viewers and printer handoff remain unconfirmed.** Earlier automated UI checks lacked usable WebGL/window access. The print-team handoff also failed despite a parsed 3MF; no print job was sent. This is separate from generating files for manual inspection.
+- **Electrical estimates require measurements.** The current budget assumes about 2.8 A at 5 V; actual servo stall current and regulator thermal performance may exceed that model. Battery percentage is an estimate, not a fuel-gauge measurement.
+
+These checks retain the practical findings from the original independent reviews. A passed CAD, ERC/DRC, or compile check does not establish physical fit, battery behavior, or walking performance.
+
+## Build from source
+
+The repository contains authored sources and the selected README images. **STEP/STL/3MF, generated reports, viewer HTML, and firmware binaries are not committed.** The output paths listed below appear only after building; they are not prebuilt GitHub downloads.
+
+The current build pipeline targets **macOS**. It expects:
+
+| Stage | Tools |
+| --- | --- |
+| Board | Autonomous Circuit's KiCad toolchain, Python 3.10+ (3.12 recommended), KiCad 10 CLI and matching pcbnew runtime, zsh, rsync |
+| Case | Board tools plus CadQuery, NumPy, Matplotlib, VTK, Node.js, and Bambu Studio 2.7 at the path expected by the scripts |
+| Firmware | Arduino CLI, ESP32 core 2.0.14, U8g2 and WebSockets libraries, Node.js, and a C++ compiler; QR sources are included |
+
+Install/configure the toolchain from [Autonomous Circuit](https://github.com/autonomous-ai/autonomous-circuit/tree/main/harness/kicad) first. A Harness app session can supply the environment variables, but the app itself is not required: the Python wrapper scripts in that repository can also be used from a terminal.
+
+```sh
+git clone https://github.com/triluongmh-byte/dog-nautilus.git
+cd dog-nautilus
+
+# Replace this with your actual Autonomous Circuit checkout.
+export CIRCUIT_REPO="/absolute/path/to/autonomous-circuit"
+export KICAD_HARNESS_PYTHON="$CIRCUIT_REPO/harness/kicad/toolchain/python"
+export KICAD_CASE_PYTHON="$CIRCUIT_REPO/harness/kicad/toolchain/case-python"
+
+# Choose only the stage(s) you need.
+./build.sh board
+./build.sh case
+```
+
+For firmware, point Arduino CLI at the directories where **your** ESP32 core and libraries are installed:
+
+```sh
+export ARDUINO_DIRECTORIES_DATA="/absolute/path/to/arduino-data"
+export ARDUINO_DIRECTORIES_USER="/absolute/path/to/arduino-sketchbook"
+./build.sh firmware
+```
+
+Run `./build.sh` without stage names to build everything. The case stage builds missing board inputs first. The pipeline reuses the existing PCB copper; it does not reroute the board. Missing dependencies or failed checks stop the build, and the script does not install dependencies, flash a device, operate a printer, or place orders.
+
+| Generated output | Local path after building |
+| --- | --- |
+| STEP/STL files and parts manifest | `case/out/` |
+| Full production print project | `case/print/production.3mf` |
+| Separate test-coupon print project | `case/print/test-only.3mf` |
+| Assembly overview | `case/overview.html` |
+| Native board preview/report files | `boards/main.board.json`, `boards/main_review/` |
+| Mechanical verification reports | `case/reports/` |
+| Firmware binary | `build/firmware/arduino-build/sketch.ino.bin` |
+| Rebuild summary | `build/release-proof.json` |
+
+The older mechanical sweep covered 72 poses using the earlier component envelopes. The November 16 firmware/electrical revision reports a successful Arduino CLI build and native board checks, while explicitly leaving the case unchanged. Regenerate and read the relevant reports for the revision you intend to build; do not combine an old mechanical pass with new module dimensions.
+
+## Repository map
+
+| Path | Contents |
+| --- | --- |
+| [case/](case/) and [tools/case/](tools/case/) | Parametric CAD, linkage geometry, checks, assembly and print tooling |
+| [firmware/](firmware/) | ESP32-C3 sources, web controller, display and calibration |
+| [design/](design/) | KiCad schematic/layout and local libraries |
+| [engineering/](engineering/) | Wiring, power, protection, source evidence and bring-up |
+| [parts.json](parts.json) and [case/hardware.json](case/hardware.json) | Electrical reference parts and mechanical hardware |
+| [PILOT_CONTRACT.json](PILOT_CONTRACT.json) | Original sealed design inputs |
+| [prompts/](prompts/) | Original brief, current summary and reference assets |
+| [case/PRINTED-INVENTORY.md](case/PRINTED-INVENTORY.md) | Confirmed physical print inventory |
+
+When contributing, describe the source revision, actual parts/printer/material, measurements, and checks performed. Keep generated CAD, slicer projects, reports, and binaries out of source commits. Report real print/fit/walking results separately from software checks.
